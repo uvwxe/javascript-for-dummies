@@ -1,0 +1,128 @@
+[
+  {
+    "id": "arrays-map",
+    "language": "JavaScript",
+    "title": "Map & Transform",
+    "branch": "arrays",
+    "prerequisites": ["dom-modify"],
+    "jobContext": "Imagine you have a list of students with their full info — name, age, grade — but you only need their names for a roster. .map() does that for you. You'll use it every day to pluck one piece of data from a list.",
+    "animation": "arrays-map-scene",
+    "lesson": [
+      { "type": "heading", "content": "What is an Array?" },
+      { "type": "text", "content": "An **array** is just a list of items. Like a shopping list: `['milk', 'eggs', 'bread']`. The square brackets `[]` tell JavaScript \"this is a list\". Each item has a number (called an **index**) starting at 0." },
+      { "type": "code", "content": "const shoppingList = ['milk', 'eggs', 'bread'];\n// Index:             0        1       2\nconsole.log(shoppingList[0]); // prints 'milk'" },
+      { "type": "heading", "content": "What is an Object?" },
+      { "type": "text", "content": "An **object** is a thing with properties — like a person with a name and age. Objects use curly braces `{}` and store info as \"key: value\" pairs." },
+      { "type": "code", "content": "const person = { name: 'Alice', age: 30 };\nconsole.log(person.name); // prints 'Alice'\nconsole.log(person.age);  // prints 30" },
+      { "type": "heading", "content": "An Array of Objects" },
+      { "type": "text", "content": "Often you'll have an array full of objects. Like a list of users where each user has a name, age, etc." },
+      { "type": "code", "content": "const users = [\n  { name: 'Alice', age: 30 },\n  { name: 'Bob', age: 25 },\n  { name: 'Charlie', age: 35 }\n];\n// users[0].name is 'Alice'\n// users[1].name is 'Bob'" },
+      { "type": "heading", "content": "What Does .map() Do?" },
+      { "type": "text", "content": "**.map()** goes through every item in an array, does something to each item, and gives you back a **new array** of the same length. Think of it like a conveyor belt: items go in one side, get transformed, and come out the other side." },
+      { "type": "code", "content": "const numbers = [1, 2, 3];\nconst doubled = numbers.map(n => n * 2);\nconsole.log(doubled); // prints [2, 4, 6]" },
+      { "type": "text", "content": "Let's break that down: `numbers.map(n => n * 2)` means \"go through the numbers array, take each number (call it `n`), multiply it by 2, and put the result in a new array\"." },
+      { "type": "heading", "content": "The Arrow Function `=>`" },
+      { "type": "text", "content": "The `=>` is called an **arrow function**. `n => n * 2` is a shorter way of writing `function(n) { return n * 2 }`. It means \"take n and return n times 2\". The part before `=>` is the input, the part after is what you return." },
+      { "type": "heading", "content": "Important: .map() Never Changes the Original" },
+      { "type": "text", "content": "**.map()** always creates a **new array**. The original array stays the same. This is important — it means you won't accidentally lose your original data." },
+      { "type": "code", "content": "const original = [1, 2, 3];\nconst newArray = original.map(n => n * 10);\nconsole.log(original); // still [1, 2, 3] — unchanged!\nconsole.log(newArray); // [10, 20, 30]" },
+      { "type": "heading", "content": "Your Task: Extract Names from Users" },
+      { "type": "text", "content": "Write a function called `getNames(users)` that takes an array of user objects (each with a `.name` property) and returns an array of just the names using `.map()`." },
+      { "type": "code", "content": "// If input is [{name: 'Alice'}, {name: 'Bob'}]\n// Output should be ['Alice', 'Bob']\n//\n// Hint: users.map(user => user.name)\n// This means: for each user, give me their .name" }
+    ],
+    "starterCode": "function getNames(users) {\n  // users is an array like [{name: \"Alice\"}, {name: \"Bob\"}]\n  // .map() transforms each item and returns a new array\n  \n  // Long way — easier to understand:\n  // return users.map(function(user) {\n  //   return user.name\n  // })\n  \n  // Short way — arrow function:\n  // return users.map(user => user.name)\n  \n  // Write your code below:\n  \n}",
+    "testCases": [
+      { "name": "returns an array", "input": [[{"name":"Alice"},{"name":"Bob"}]], "expected": "array" },
+      { "name": "extracts names correctly", "input": [[{"name":"Alice"},{"name":"Bob"}]], "expected": ["Alice", "Bob"] },
+      { "name": "handles empty array", "input": [[]], "expected": [] }
+    ],
+    "hints": [
+      "Start with: return users.map(...)",
+      "Inside .map(), write user => user.name — this takes each user and returns their name",
+      "If the input array is empty, .map() will return an empty array automatically — you don't need special code for that",
+      "Remember: .map() returns a new array, it does NOT change the original"
+    ]
+  },
+  {
+    "id": "arrays-filter",
+    "language": "JavaScript",
+    "title": "Filter & Find",
+    "branch": "arrays",
+    "prerequisites": ["arrays-map"],
+    "jobContext": "Filtering is everywhere — showing only completed tasks, finding active users, listing products that are in stock. When you combine filter with map, you can do almost anything with lists.",
+    "animation": "arrays-filter-scene",
+    "lesson": [
+      { "type": "heading", "content": "What is .filter()?" },
+      { "type": "text", "content": "**.filter()** goes through an array and keeps only the items that pass a test. It returns a **new array** (maybe smaller, maybe same size). Think of it like a sieve: small items fall through, big items stay." },
+      { "type": "code", "content": "const numbers = [1, 2, 3, 4, 5];\nconst bigNumbers = numbers.filter(n => n > 3);\nconsole.log(bigNumbers); // prints [4, 5]\n// Only numbers greater than 3 made it through" },
+      { "type": "heading", "content": "How Filter Works, Step by Step" },
+      { "type": "text", "content": "`numbers.filter(n => n > 3)` runs the test `n > 3` for every number. If the test is **true**, the number goes into the new array. If **false**, it's skipped. JavaScript calls this the **callback** — the function that decides yes or no." },
+      { "type": "code", "content": "// Written without arrow, to see it clearly:\nconst result = numbers.filter(function(n) {\n  return n > 3;  // true = keep, false = skip\n});\nconsole.log(result); // [4, 5]" },
+      { "type": "heading", "content": "Filtering Objects by a Property" },
+      { "type": "text", "content": "Most of the time you'll filter an array of objects. Let's keep only the active users:" },
+      { "type": "code", "content": "const users = [\n  { name: 'Alice', active: true },\n  { name: 'Bob', active: false },\n  { name: 'Charlie', active: true }\n];\n\nconst activeUsers = users.filter(user => user.active);\nconsole.log(activeUsers);\n// prints [{name: 'Alice', active: true}, {name: 'Charlie', active: true}]" },
+      { "type": "text", "content": "Notice: `user.active` is already `true` or `false`. You don't need `user.active === true`. Just `user.active` works because it's already a yes/no value." },
+      { "type": "heading", "content": "What is .find()?" },
+      { "type": "text", "content": "**.find()** is like filter but it stops at the **first match** and returns just that one item. If nothing matches, it returns **undefined** (which means \"nothing found\")." },
+      { "type": "code", "content": "const users = [\n  { id: 1, name: 'Alice' },\n  { id: 2, name: 'Bob' },\n  { id: 3, name: 'Charlie' }\n];\n\nconst user = users.find(u => u.id === 2);\nconsole.log(user); // prints {id: 2, name: 'Bob'}\n\nconst nobody = users.find(u => u.id === 99);\nconsole.log(nobody); // prints undefined" },
+      { "type": "heading", "content": "The Difference: Filter vs Find" },
+      { "type": "text", "content": "Use **.filter()** when you want ALL matches (returns an array, maybe empty). Use **.find()** when you want the FIRST match (returns one item or undefined). Think of filter as \"give me all the red shirts\" and find as \"give me the first person whose name is Bob\"." },
+      { "type": "code", "content": "const items = [\n  { color: 'red', size: 'M' },\n  { color: 'blue', size: 'L' },\n  { color: 'red', size: 'S' }\n];\n\nconst allRed = items.filter(i => i.color === 'red');\n// Returns [{color: 'red', size: 'M'}, {color: 'red', size: 'S'}]\n\nconst firstRed = items.find(i => i.color === 'red');\n// Returns {color: 'red', size: 'M'} — only the FIRST one" },
+      { "type": "heading", "content": "Your Task: Two Functions" },
+      { "type": "text", "content": "Write `getActiveUsers(users)` that returns only users with `active: true`. Write `findUserById(users, id)` that returns the user with a matching `id` (or `null` if not found)." }
+    ],
+    "starterCode": "function getActiveUsers(users) {\n  // Filter: keep only users where active is true\n  // .filter() runs a test on each item — true means keep, false means skip\n  // return users.filter(user => user.active)\n  \n}\n\nfunction findUserById(users, id) {\n  // Find: return the first user with matching id\n  // .find() returns one item (or undefined if nothing matches)\n  // We use || null to convert undefined to null\n  // return users.find(user => user.id === id) || null\n  \n}",
+    "testCases": [
+      { "name": "getActiveUsers filters correctly", "input": [[{"name":"A","active":true},{"name":"B","active":false}]], "expected": 1 },
+      { "name": "findUserById returns correct user", "input": [[{"id":1,"name":"A"},{"id":2,"name":"B"}], 2], "expected": "B" },
+      { "name": "findUserById returns undefined for missing", "input": [[{"id":1,"name":"A"}], 99], "expected": null }
+    ],
+    "hints": [
+      "For getActiveUsers: users.filter(u => u.active) — the .active property is already true/false, no need to compare",
+      "For findUserById: users.find(u => u.id === id) — use === to check if they're equal",
+      ".find() returns undefined if nothing matches, so add || null at the end to pass the test",
+      "Filter returns all matches as an array. Find returns just one item (or undefined/null)"
+    ]
+  },
+  {
+    "id": "arrays-reduce",
+    "language": "JavaScript",
+    "title": "Reduce & Aggregate",
+    "branch": "arrays",
+    "prerequisites": ["arrays-filter"],
+    "jobContext": ".reduce() is like a pocket calculator for your data. You'll use it to total shopping carts, calculate averages, find the largest number, or group items into categories. It looks scary at first, but it's just a running total.",
+    "animation": "arrays-reduce-scene",
+    "lesson": [
+      { "type": "heading", "content": "What is .reduce()?" },
+      { "type": "text", "content": "**.reduce()** goes through an array and keeps a **running total**, then returns ONE final value. Think of it like a cash register: you start at $0, scan each item, add its price, and at the end you have the total." },
+      { "type": "code", "content": "const prices = [10, 20, 30];\nconst total = prices.reduce((sum, price) => sum + price, 0);\nconsole.log(total); // prints 60" },
+      { "type": "heading", "content": "Let's Trace It, Step by Step" },
+      { "type": "text", "content": "Here's what happens inside that reduce call. It starts at 0, then adds each price one at a time:" },
+      { "type": "code", "content": "// prices = [10, 20, 30]\n// .reduce((sum, price) => sum + price, 0)\n//\n// Step 1: sum = 0 (starting value), price = 10  → sum becomes 10\n// Step 2: sum = 10,              price = 20  → sum becomes 30\n// Step 3: sum = 30,              price = 30  → sum becomes 60\n// Final result: 60" },
+      { "type": "heading", "content": "The Two Parts of .reduce()" },
+      { "type": "text", "content": "Reduce takes **two** things: a function and a starting value. The function has two parameters: the **accumulator** (the running total) and the **current item**. The starting value is the second argument (the `0` at the end). This starting value is VERY important." },
+      { "type": "code", "content": "// Written without arrow function, to see it clearly:\nconst total = prices.reduce(function(sum, price) {\n  return sum + price;\n}, 0); // <-- starting value: 0\n\n// sum starts at 0, then becomes 0 + 10 = 10, then 10 + 20 = 30, then 30 + 30 = 60" },
+      { "type": "heading", "content": "Why the Starting Value Matters" },
+      { "type": "text", "content": "If you leave out the starting value `0`, reduce uses the first item as the starting value. That works sometimes but breaks with empty arrays! Always provide a starting value." },
+      { "type": "code", "content": "// WITHOUT starting value — see what happens with an empty array:\nconst empty = [];\n// empty.reduce((sum, price) => sum + price);\n// This throws an ERROR! Can't reduce an empty array without a starting value.\n\n// WITH starting value:\nempty.reduce((sum, price) => sum + price, 0);\n// Returns 0 — no error, just the starting value." },
+      { "type": "heading", "content": "Reduce vs a Manual Loop" },
+      { "type": "text", "content": "If you wrote this with a loop instead of reduce, it would look like this. See how reduce is shorter and cleaner:" },
+      { "type": "code", "content": "// Manual loop version (long way):\nlet total = 0;\nfor (let i = 0; i < prices.length; i++) {\n  total = total + prices[i];\n}\nconsole.log(total); // 60\n\n// Reduce version (short way):\nconst total = prices.reduce((sum, price) => sum + price, 0);\nconsole.log(total); // 60" },
+      { "type": "heading", "content": "Your Task: Sum Cart Totals" },
+      { "type": "text", "content": "Write `getCartTotal(items)` that takes an array of items (each with a `.price` property) and returns the sum of all prices using `.reduce()`. If the cart is empty, return 0." },
+      { "type": "code", "content": "// If input is [{price: 10}, {price: 20}, {price: 30}]\n// Output should be 60\n//\n// Hint: items.reduce((total, item) => total + item.price, 0)\n// Start at 0, add each item's price, return the final total" }
+    ],
+    "starterCode": "function getCartTotal(items) {\n  // .reduce() takes a function AND a starting value (0 for sums)\n  // For each item, add its .price to the running total\n  \n  // Long way — easier to understand:\n  // return items.reduce(function(total, item) {\n  //   return total + item.price\n  // }, 0)\n  \n  // Short way — arrow:\n  // return items.reduce((total, item) => total + item.price, 0)\n  \n  // Write your code below:\n  \n}",
+    "testCases": [
+      { "name": "returns 0 for empty cart", "input": [[]], "expected": 0 },
+      { "name": "sums a single item", "input": [[{"price":9.99}]], "expected": 9.99 },
+      { "name": "sums multiple items", "input": [[{"price":10},{"price":20},{"price":30}]], "expected": 60 }
+    ],
+    "hints": [
+      "Use items.reduce((total, item) => total + item.price, 0) — the 0 is the starting value",
+      "Always provide the starting value (0) as the second argument to .reduce() — otherwise empty arrays crash",
+      "The first parameter (total) holds the running total, the second (item) is each element one at a time",
+      "Don't forget to return the result of .reduce() from your function"
+    ]
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "name": "CodeLabs",
+  "short_name": "CodeLabs",
+  "description": "Interactive coding education — project-driven, job-aligned lessons",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fbfbfd",
+  "theme_color": "#0071e3",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

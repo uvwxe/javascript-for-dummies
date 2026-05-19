@@ -1,0 +1,307 @@
+[
+  {
+    "id": "async-fetch",
+    "title": "Fetch Data",
+    "language": "JavaScript",
+    "branch": "async",
+    "prerequisites": ["dom-modify"],
+    "jobContext": "Every app you use — Instagram, Twitter, Amazon — fetches data from servers. When you load your feed, it's using fetch(). This is THE most important skill for building real web apps.",
+    "animation": "async-fetch-scene",
+    "lesson": [
+      {
+        "type": "heading",
+        "content": "What You'll Learn"
+      },
+      {
+        "type": "text",
+        "content": "By the end of this lesson, you'll write a function that asks a server for a user's name and gets it back. Sounds simple — but this one skill is how ALL apps load data from the internet."
+      },
+      {
+        "type": "heading",
+        "content": "What is an API?"
+      },
+      {
+        "type": "text",
+        "content": "An **API** (Application Programming Interface) is a website that gives you data instead of a visual page. When you visit https://jsonplaceholder.typicode.com/users/1 in a browser, you see a block of text. That text is **JSON data** — structured information that computers can read. APIs are like restaurant kitchens: you place an order (a request), and the kitchen sends back your food (the data)."
+      },
+      {
+        "type": "heading",
+        "content": "What is fetch()?"
+      },
+      {
+        "type": "text",
+        "content": "`fetch()` is a built-in JavaScript tool that asks a URL for data. Think of it like dialing a phone number: you give it an address (URL), and it calls that address to get information. `fetch()` always returns a **Promise** — a promise of data that will arrive later."
+      },
+      {
+        "type": "heading",
+        "content": "What is a Promise?"
+      },
+      {
+        "type": "text",
+        "content": "A **Promise** is exactly what it sounds like: a promise that something will happen in the future. When you order food at a restaurant, you get a receipt number (that's the Promise), and later your food arrives (that's the Promise resolving). Promises can be in three states: **pending** (waiting for food), **fulfilled** (food arrived), or **rejected** (kitchen burned down)."
+      },
+      {
+        "type": "heading",
+        "content": "What is .then()?"
+      },
+      {
+        "type": "text",
+        "content": "`.then()` is how you say \"when the data arrives, do this\". It's like telling your friend: \"When the pizza gets here, text me.\" You attach `.then()` to a Promise, and the code inside runs only after the Promise is fulfilled. `.then()` itself returns a Promise too, which is why you can chain them."
+      },
+      {
+        "type": "code",
+        "content": "// Step 1: fetch() asks the URL for data. fetch() returns a Promise.\n// Step 2: .then() runs when the response arrives\n// Step 3: response.json() converts the response into usable data\n// Step 4: The second .then() runs with the converted data\n\nfetch('https://jsonplaceholder.typicode.com/users/1')\n  .then(function(response) {\n    return response.json()    // Convert raw response to data object\n  })\n  .then(function(userData) {\n    console.log(userData.name)  // Prints: \"Leanne Graham\"\n  })"
+      },
+      {
+        "type": "text",
+        "content": "Let's break that down line by line:"
+      },
+      {
+        "type": "bullet",
+        "content": "`fetch('https://...')` — calls the server and returns a Promise. The request is sent, and JavaScript keeps running other code while waiting."
+      },
+      {
+        "type": "bullet",
+        "content": "`.then(function(response) { ... })` — runs when the server responds. The `response` object contains the server's reply, but it's in a raw format we can't use yet."
+      },
+      {
+        "type": "bullet",
+        "content": "`response.json()` — converts the raw response into a usable JavaScript object (an **object** is a collection of labeled data, like a file folder with labeled tabs). This also returns a Promise because converting takes time."
+      },
+      {
+        "type": "bullet",
+        "content": "`.then(function(userData) { ... })` — runs with the converted data. `userData` is an object containing everything the API knows about user 1: name, email, address, phone, etc."
+      },
+      {
+        "type": "bullet",
+        "content": "`return userData.name` — pulls just the `name` property out of the object (like opening the folder and taking only the tab labeled \"name\")."
+      },
+      {
+        "type": "heading",
+        "content": "How do you build the URL?"
+      },
+      {
+        "type": "text",
+        "content": "The URL has two parts: a **base URL** that never changes, and an **id** that changes for each user. You combine them with `+`, the string concatenation operator (it glues text together)."
+      },
+      {
+        "type": "code",
+        "content": "// Base URL (the server's address)\nlet baseUrl = 'https://jsonplaceholder.typicode.com/users/'\n\n// Id of the user we want\nlet userId = 1\n\n// Combined URL:\nlet fullUrl = baseUrl + userId\nconsole.log(fullUrl)   // Prints: \"https://jsonplaceholder.typicode.com/users/1\"\n\n// If userId were 5:\nuserId = 5\nfullUrl = baseUrl + userId\nconsole.log(fullUrl)   // Prints: \"https://jsonplaceholder.typicode.com/users/5\""
+      },
+      {
+        "type": "heading",
+        "content": "Your Task"
+      },
+      {
+        "type": "text",
+        "content": "Write a function `getUser(id)` that fetches from `https://jsonplaceholder.typicode.com/users/` + the id, and returns a Promise that resolves to the user's **name**. For example, `getUser(1)` should eventually give you `\"Leanne Graham\"`."
+      },
+      {
+        "type": "text",
+        "content": "The function should: (1) build the URL from the base + id, (2) call fetch() with that URL, (3) convert the response to JSON with `.then(res => res.json())`, (4) return just the name with `.then(data => data.name)`."
+      }
+    ],
+    "starterCode": "function getUser(id) {\n  // Build the URL\n  // let url = 'https://jsonplaceholder.typicode.com/users/' + id\n  \n  // Fetch data from the URL\n  // return fetch(url)\n  //   .then(function(response) { \n  //     return response.json()    // Convert response to usable data\n  //   })\n  //   .then(function(userData) {\n  //     return userData.name      // Get just the name\n  //   })\n}",
+    "testCases": [
+      { "name": "returns a promise", "input": [1], "expected": "promise" },
+      { "name": "resolves to a string", "input": [1], "expected": "string" },
+      { "name": "returns the correct user name for id 1", "input": [1], "expected": "Leanne Graham" }
+    ],
+    "hints": [
+      "Build the URL: 'https://jsonplaceholder.typicode.com/users/' + id",
+      "Use fetch() + .then(res => res.json()) to get the data",
+      "Return data.name from the result — data is the user object, .name gets just their name"
+    ]
+  },
+  {
+    "id": "async-promises",
+    "title": "Promises & Await",
+    "language": "JavaScript",
+    "branch": "async",
+    "prerequisites": ["async-fetch"],
+    "jobContext": "Modern codebases all use async/await. It's cleaner than .then() chains. If you're reading production code, this is what you'll see. Every line reads top-to-bottom like normal code.",
+    "animation": "async-promises-scene",
+    "lesson": [
+      {
+        "type": "heading",
+        "content": "What You'll Learn"
+      },
+      {
+        "type": "text",
+        "content": "In the last lesson, you used `.then()` to handle Promises. It works, but the code reads sideways instead of down. This lesson introduces `async` and `await` — two words that make Promise-based code read like normal step-by-step instructions."
+      },
+      {
+        "type": "heading",
+        "content": "What is async?"
+      },
+      {
+        "type": "text",
+        "content": "`async` is a keyword you put BEFORE a function: `async function name() { ... }`. It does two things: (1) it lets you use `await` inside the function, and (2) it automatically wraps the return value in a Promise. Even if you `return 5`, the caller gets a Promise that resolves to 5. Think of `async` as flipping a switch that tells JavaScript \"this function deals with waiting.\""
+      },
+      {
+        "type": "heading",
+        "content": "What is await?"
+      },
+      {
+        "type": "text",
+        "content": "`await` means \"pause right here and wait for this Promise to finish\". It's like saying \"wait for the toast to pop up before buttering it.\" `await` can ONLY be used inside `async` functions. While JavaScript is paused on an `await`, it can still handle other tasks — it doesn't freeze the whole program."
+      },
+      {
+        "type": "heading",
+        "content": "Side-by-Side Comparison"
+      },
+      {
+        "type": "text",
+        "content": "Here's the `.then()` version you already know, next to the `async/await` version. They do EXACTLY the same thing:"
+      },
+      {
+        "type": "code",
+        "content": "// --- .then() version (Lesson 1) ---\nfunction getUser(id) {\n  return fetch('https://jsonplaceholder.typicode.com/users/' + id)\n    .then(function(res) {\n      return res.json()\n    })\n    .then(function(data) {\n      return data.name\n    })\n}\n\n// --- async/await version (this lesson) ---\nasync function getUser(id) {\n  let url = 'https://jsonplaceholder.typicode.com/users/' + id\n  let res = await fetch(url)       // Wait for the response\n  let data = await res.json()      // Wait for JSON conversion\n  return data.name                 // Return the name (wrapped in Promise automatically)\n}"
+      },
+      {
+        "type": "text",
+        "content": "See the difference? The `async/await` version reads top-to-bottom, like a recipe. No sideways `.then()` nesting. Every line runs in order, and `await` just pauses at each step until the data is ready."
+      },
+      {
+        "type": "heading",
+        "content": "Line-by-Line Breakdown"
+      },
+      {
+        "type": "code",
+        "content": "async function getPostTitle(id) {\n  // 1. Build the URL (same as before)\n  let url = 'https://jsonplaceholder.typicode.com/posts/' + id\n  \n  // 2. fetch() returns a Promise. await PAUSES here until the response arrives.\n  //    No .then() needed. The response gets saved directly into 'response'.\n  let response = await fetch(url)\n  //    When this line finishes, 'response' contains the server's full reply.\n  \n  // 3. response.json() ALSO returns a Promise. await pauses again.\n  //    Once done, 'postData' is the usable JavaScript object.\n  let postData = await response.json()\n  //    postData looks like: { userId: 1, id: 1, title: \"...\", body: \"...\" }\n  \n  // 4. Just return the title. Since this is async, JavaScript automatically\n  //    wraps the return value in a Promise for the caller.\n  return postData.title\n  //    The caller gets a Promise that resolves to the title string.\n}"
+      },
+      {
+        "type": "heading",
+        "content": "Understanding the API Response"
+      },
+      {
+        "type": "text",
+        "content": "The Posts API at `https://jsonplaceholder.typicode.com/posts/1` returns data that looks like this:"
+      },
+      {
+        "type": "code",
+        "content": "// What the API sends back for a post:\n{\n  \"userId\": 1,          // The id of the user who wrote this post\n  \"id\": 1,              // The post's own id\n  \"title\": \"sunt aut facere repellat...\",  // The post title\n  \"body\": \"quia et suscipit...\"            // The post body/content\n}\n\n// To get the title: postData.title\nconsole.log(postData.title)   // Prints: \"sunt aut facere repellat provident occaecati excepturi optio reprehenderit\""
+      },
+      {
+        "type": "heading",
+        "content": "Why use async/await?"
+      },
+      {
+        "type": "text",
+        "content": "Three reasons: (1) **Readability** — code reads top-to-bottom like normal instructions, not nested sideways. (2) **Debugging** — stack traces show the actual line number that failed, not the middle of a `.then()` chain. (3) **Error handling** — you can use `try/catch` (next lesson) instead of `.catch()`. Every modern codebase prefers async/await."
+      },
+      {
+        "type": "heading",
+        "content": "Your Task"
+      },
+      {
+        "type": "text",
+        "content": "Write an `async function getPostTitle(id)` that fetches from `https://jsonplaceholder.typicode.com/posts/` + the id and returns the post's title. Use `await` for both the `fetch()` call and the `.json()` conversion. Return `data.title`."
+      }
+    ],
+    "starterCode": "async function getPostTitle(id) {\n  // async lets us use 'await' inside\n  \n  // Build the URL\n  // let url = 'https://jsonplaceholder.typicode.com/posts/' + id\n  \n  // Fetch and wait for the response\n  // let response = await fetch(url)\n  \n  // Convert to JSON and wait\n  // let postData = await response.json()\n  \n  // Return the title\n  // return postData.title\n}",
+    "testCases": [
+      { "name": "returns a promise", "input": [1], "expected": "promise" },
+      { "name": "resolves to correct title for id 1", "input": [1], "expected": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit" }
+    ],
+    "hints": [
+      "Use async before the function keyword",
+      "Use await fetch(url) to get the response, then await response.json() to get data",
+      "Return data.title from the function"
+    ]
+  },
+  {
+    "id": "async-errors",
+    "title": "Handle Errors",
+    "language": "JavaScript",
+    "branch": "async",
+    "prerequisites": ["async-promises"],
+    "jobContext": "In real apps, APIs fail constantly — servers go down, networks cut out, users type wrong IDs. If you don't handle errors, your app crashes with ugly red screens. Error handling separates professional code from hobby projects.",
+    "animation": "async-errors-scene",
+    "lesson": [
+      {
+        "type": "heading",
+        "content": "What You'll Learn"
+      },
+      {
+        "type": "text",
+        "content": "So far you've written code that works when everything is perfect. But the real world is messy: servers crash, networks drop, users type invalid IDs. In this lesson, you'll learn to handle all of that gracefully so your app never crashes."
+      },
+      {
+        "type": "heading",
+        "content": "The Problem: APIs Fail"
+      },
+      {
+        "type": "text",
+        "content": "What happens with your current code when you call `getUser(99999)`? The server might return a **404** (\"not found\" status code). Or if there's a typo in the URL, JavaScript throws an error and your whole program stops. Users see nothing — or worse, a red error message."
+      },
+      {
+        "type": "heading",
+        "content": "What is try/catch?"
+      },
+      {
+        "type": "text",
+        "content": "`try/catch` is like a safety net for a tightrope walker. You put risky code inside `try { }`. If an error happens, instead of crashing, execution jumps to `catch (error) { }` where you handle it gracefully. Think of it as: \"try this dangerous thing, and if it breaks, catch the pieces before they hit the ground.\""
+      },
+      {
+        "type": "code",
+        "content": "try {\n  // Put risky code here\n  // If ANY line inside throws an error, execution jumps to catch()\n  let result = riskyOperation()\n  console.log('Success:', result)  // Only runs if no error\n} catch (error) {\n  // Handle the error here\n  // This runs if anything in the try block failed\n  console.log('Oops:', error.message)  // Friendly message instead of crash\n}"
+      },
+      {
+        "type": "heading",
+        "content": "The Surprising Thing About fetch()"
+      },
+      {
+        "type": "text",
+        "content": "Here's something that trips up beginners: **`fetch()` only throws an error for network problems** (like no internet connection or a typo in the domain name). If the server responds with a 404 (\"user not found\") or 500 (\"server error\"), `fetch()` considers that a SUCCESSFUL response — it got a reply, just not the one you wanted."
+      },
+      {
+        "type": "code",
+        "content": "// This does NOT throw an error even though user 99999 doesn't exist:\nasync function tryFetch() {\n  let res = await fetch('https://jsonplaceholder.typicode.com/users/99999')\n  console.log(res.ok)  // Prints: false  (the response is NOT ok, but it's not an error either)\n  console.log(res.status)  // Prints: 404  (status code for \"not found\")\n}\n\n// You have to CHECK the response yourself with response.ok\n// res.ok is true for status codes 200-299 (success)\n// res.ok is false for 404, 500, and other error status codes"
+      },
+      {
+        "type": "heading",
+        "content": "What is throw new Error()?"
+      },
+      {
+        "type": "text",
+        "content": "`throw` is how you manually create an error. `new Error('message')` creates an error object with a description. When you throw, execution immediately stops and jumps to the nearest `catch` block. You use it like this: `if (!response.ok) { throw new Error('User not found') }`."
+      },
+      {
+        "type": "code",
+        "content": "async function safeGetUser(id) {\n  try {\n    // 1. Build the URL. What if id is -1? The URL becomes:\n    //    \"https://jsonplaceholder.typicode.com/users/-1\" — which doesn't exist!\n    let url = 'https://jsonplaceholder.typicode.com/users/' + id\n    \n    // 2. Fetch the URL\n    let response = await fetch(url)\n    \n    // 3. Check if the response is OK (status code 200-299)\n    //    If it's NOT ok (e.g., 404), we manually throw an error\n    if (!response.ok) {\n      // This jumps straight to the catch block below\n      throw new Error('User not found')\n    }\n    \n    // 4. Only reached if response WAS ok — convert to JSON\n    let userData = await response.json()\n    \n    // 5. Return the data on success\n    return userData\n    \n  } catch (error) {\n    // 6. This runs if ANYTHING in the try block threw an error:\n    //    - Network failure (no internet)\n    //    - Bad URL (typo in domain)\n    //    - Our manual throw for !response.ok\n    //    - JSON parsing failure\n    //\n    // 7. Return a clean error object instead of crashing\n    //    The error object has two properties:\n    return { error: true, message: error.message }\n    //    .error is true so the caller knows something went wrong\n    //    .message has a human-readable explanation\n  }\n}"
+      },
+      {
+        "type": "heading",
+        "content": "Why return an error object instead of crashing?"
+      },
+      {
+        "type": "text",
+        "content": "When a function crashes, the user sees nothing — or a red error screen. When you return an error object like `{ error: true, message: '...' }`, the CALLER (the code that uses your function) can decide what to show the user: \"User not found, please try a different ID.\" This is called **graceful error handling** — your app never explodes, it just reports what went wrong in a friendly way."
+      },
+      {
+        "type": "heading",
+        "content": "Your Task"
+      },
+      {
+        "type": "text",
+        "content": "Write an async function `safeGetUser(id)` that handles errors gracefully. On success, return the user data. On failure (network error, bad response, invalid ID), return `{ error: true, message: 'the error message' }`. Use `try/catch` and check `response.ok` before converting to JSON."
+      },
+      {
+        "type": "text",
+        "content": "For the test cases: valid id (1) should return truthy data. Invalid id (9999) should return an error object. A bad id like -1 should also return an error object (the URL will fail to fetch because there's no user with id -1)."
+      }
+    ],
+    "starterCode": "async function safeGetUser(id) {\n  try {\n    // Build the URL (handle bad IDs)\n    // let url = 'https://jsonplaceholder.typicode.com/users/' + id\n    \n    // Fetch it\n    // let response = await fetch(url)\n    \n    // Check if the response is OK (status 200-299)\n    // if (!response.ok) {\n    //   throw new Error('User not found')\n    // }\n    \n    // Convert to JSON\n    // let userData = await response.json()\n    // return userData\n    \n  } catch (error) {\n    // Something went wrong — return a clean error\n    // return { error: true, message: error.message }\n  }\n}",
+    "testCases": [
+      { "name": "returns data for valid id", "input": [1], "expected": true },
+      { "name": "returns error object for invalid id", "input": [9999], "expected": true },
+      { "name": "returns error for bad URL", "input": [-1], "expected": true }
+    ],
+    "hints": [
+      "Wrap your code in try { ... } catch (error) { ... }",
+      "After fetch(url), check if (!response.ok) and throw new Error('message')",
+      "Return { error: true, message: error.message } inside the catch block"
+    ]
+  }
+]

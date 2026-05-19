@@ -1,0 +1,9 @@
+{
+  "lessons": [
+    "dom-basics",
+    "forms-basics",
+    "async-basics",
+    "arrays-basics",
+    "python-basics"
+  ]
+}

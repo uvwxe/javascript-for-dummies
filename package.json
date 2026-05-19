@@ -1,0 +1,21 @@
+{
+  "name": "codelabs",
+  "version": "1.0.0",
+  "description": "Interactive coding education tool — project-driven, job-aligned lessons",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "generate-lesson": "tsx scripts/generate-lesson.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "tsx": "^4.22.3",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.13"
+  }
+}

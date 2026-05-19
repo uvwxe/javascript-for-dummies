@@ -1,0 +1,120 @@
+[
+  {
+    "id": "forms-input",
+    "language": "JavaScript",
+    "title": "Get User Input",
+    "branch": "forms",
+    "prerequisites": ["dom-selectors"],
+    "jobContext": "Every login form, every signup page, every search bar — they all start the same way: reading what the user typed.",
+    "animation": "forms-input-scene",
+    "lesson": [
+      { "type": "heading", "content": "What's an Input Field?" },
+      { "type": "text", "content": "An <input> is a box on a webpage where users type things. You've used them a million times — the email box on a login page, the search bar on Google. In code, an input looks like this: <input id=\"email\">. That id is how we find it with JavaScript." },
+      { "type": "code", "content": "<!-- This creates a text box where someone can type their email -->\n<input id=\"email\" value=\"a@b.com\">\n\n<!-- The id=\"email\" is like a name tag so JavaScript can find it -->\n<!-- The value=\"a@b.com\" is what's currently typed in the box -->" },
+      { "type": "heading", "content": "The .value Property" },
+      { "type": "text", "content": "Every input has a .value property. Think of it like a sticky note on the input that says \"this is what the user typed right now.\" If someone types \"hello@email.com\" into the box, then input.value is \"hello@email.com\"." },
+      { "type": "code", "content": "// First, find the input by its id\nlet emailInput = document.getElementById('email')\n\n// Then, read what's inside it\nlet text = emailInput.value\n\n// If the input shows \"a@b.com\", then text is \"a@b.com\"\n// Try it: console.log(text) would print → \"a@b.com\"" },
+      { "type": "tip", "content": "document.getElementById('email') finds the input with id=\"email\". The .value part grabs the text inside it. Two steps: find it, then read it." },
+      { "type": "heading", "content": "What's an Object?" },
+      { "type": "text", "content": "An object is a way to group related things together. Like a file folder labeled \"User Info\" that contains an email and a password inside. In code, we write objects with curly braces { } and use this format: { key: value }." },
+      { "type": "code", "content": "// An object groups data together\nlet person = {\n  name: 'Alice',\n  age: 25\n}\n\n// To get the name, you write: person.name   →   'Alice'\n// To get the age,  you write: person.age    →   25\n\n// For a login form, we want:\nlet formData = {\n  email: 'a@b.com',\n  password: 'password123'\n}" },
+      { "type": "heading", "content": "Your Mission" },
+      { "type": "text", "content": "Write a function called getFormData that finds the email input (id=\"email\") and the password input (id=\"password\"), reads both values, and returns them as an object like { email: \"...\", password: \"...\" }. The sandbox already has the inputs set up with values in them." },
+      { "type": "code", "content": "function getFormData() {\n  // Step 1: Find the email input by its id\n  let emailElement = document.getElementById('email')\n  // Read the text inside it\n  let emailValue = emailElement.value  // → 'a@b.com'\n  \n  // Step 2: Find the password input\n  let passwordElement = document.getElementById('password')\n  let passwordValue = passwordElement.value  // → 'password123'\n  \n  // Step 3: Return them grouped as an object\n  return { email: emailValue, password: passwordValue }\n}\n\n// When you call getFormData(), it returns:\n// { email: 'a@b.com', password: 'password123' }" }
+    ],
+    "starterCode": "function getFormData() {\n  // Step 1: Find the email input\n  // let email = document.getElementById('email')\n  // Read its value: email.value\n  \n  // Step 2: Find the password input\n  // Read its value too\n  \n  // Step 3: Return them as an object\n  // return { email: emailValue, password: passwordValue }\n}",
+    "testCases": [
+      { "name": "returns an object", "input": [], "expected": "object" },
+      { "name": "has email property", "input": [], "expected": true },
+      { "name": "has password property", "input": [], "expected": true }
+    ],
+    "hints": [
+      "Start with let emailInput = document.getElementById('email')",
+      "Read the value: emailInput.value",
+      "Same steps for password, then return { email: emailInput.value, password: passwordInput.value }"
+    ]
+  },
+  {
+    "id": "forms-validation",
+    "language": "JavaScript",
+    "title": "Validate Input",
+    "branch": "forms",
+    "prerequisites": ["forms-input"],
+    "jobContext": "Form validation is the most common coding interview question. Companies want to know you can handle bad input — empty fields, wrong formats, short passwords. It's what prevents bugs in production.",
+    "animation": "forms-validation-scene",
+    "lesson": [
+      { "type": "heading", "content": "Why Validate?" },
+      { "type": "text", "content": "Users make mistakes. They press Submit with empty fields, type 'abc' where an email goes, or use a 3-character password. Validation is checking the data before accepting it. If something's wrong, you tell the user what to fix." },
+      { "type": "code", "content": "// Without validation, users could submit anything:\n//   Email: ''  (blank!)\n//   Password: '123'  (too short!)\n// \n// Validation catches these BEFORE they cause problems." },
+      { "type": "heading", "content": "Cleaning Input with .trim()" },
+      { "type": "text", "content": "Users sometimes accidentally add spaces. .trim() is a method that removes spaces from the start and end of text. Think of it like trimming the fat off a piece of meat — you keep the good stuff and remove the excess." },
+      { "type": "code", "content": "let messy = '   hello   '\nlet clean = messy.trim()\nconsole.log(clean)  // → 'hello'  (spaces are gone!)\n\n// Before checking if something is empty, ALWAYS trim first:\nlet input = '   '\nif (input.trim() === '') {\n  console.log('This is empty!')  // → This is empty!\n}\n// Without .trim(), '   ' wouldn't be seen as empty" },
+      { "type": "heading", "content": "Checking Content with .includes()" },
+      { "type": "text", "content": "An email MUST contain an '@' symbol. .includes('@') checks if '@' is somewhere in the text. It returns true (yes, it's there) or false (no, it's not). This is how we check email format." },
+      { "type": "code", "content": "let email1 = 'hello@gmail.com'\nconsole.log(email1.includes('@'))  // → true   (has @)\n\nlet email2 = 'notanemail'\nconsole.log(email2.includes('@'))   // → false  (no @!)\n\n// Real email check:\nif (!email.includes('@')) {\n  return 'Invalid email format'\n}" },
+      { "type": "heading", "content": "Measuring with .length" },
+      { "type": "text", "content": ".length tells you how many characters are in a string. 'hi'.length is 2. 'hello'.length is 5. We use it to enforce password minimums — if the password has fewer than 6 characters, reject it." },
+      { "type": "code", "content": "let word = 'hello'\nconsole.log(word.length)  // → 5\n\nlet password = 'abc'\nconsole.log(password.length)  // → 3\n\nif (password.length < 6) {\n  return 'Password must be at least 6 characters'\n}" },
+      { "type": "heading", "content": "if/else: Making Decisions" },
+      { "type": "text", "content": "if/else is how your code makes decisions. Think: \"IF the email is empty, show an error. OTHERWISE, continue checking.\" You can chain multiple checks — as soon as one fails, the function stops and returns the error message." },
+      { "type": "code", "content": "function checkAge(age) {\n  if (age < 0) {\n    return 'Age cannot be negative'\n  }\n  if (age < 18) {\n    return 'Too young'\n  }\n  return 'Allowed'\n}\n\nconsole.log(checkAge(-5))  // → 'Age cannot be negative' (stops here!)\nconsole.log(checkAge(15))  // → 'Too young'\nconsole.log(checkAge(25))  // → 'Allowed' (passed every check)" },
+      { "type": "heading", "content": "Your Mission" },
+      { "type": "text", "content": "Write a function validateLogin(email, password) that runs four checks in order. If a check fails, return the exact error message shown. If all checks pass, return 'valid'. The checks are: (1) empty email → 'Email is required', (2) empty password → 'Password is required', (3) missing @ → 'Invalid email format', (4) password shorter than 6 → 'Password must be at least 6 characters'. Order matters — check them top to bottom!" },
+      { "type": "code", "content": "function validateLogin(email, password) {\n  // Check 1: Is email empty after removing spaces?\n  if (email.trim() === '') {\n    return 'Email is required'\n  }\n  \n  // Check 2: Is password empty after removing spaces?\n  if (password.trim() === '') {\n    return 'Password is required'\n  }\n  \n  // Check 3: Does the email contain an @ symbol?\n  if (!email.includes('@')) {\n    return 'Invalid email format'\n  }\n  \n  // Check 4: Is the password at least 6 characters long?\n  if (password.length < 6) {\n    return 'Password must be at least 6 characters'\n  }\n  \n  // All checks cleared!\n  return 'valid'\n}\n\nconsole.log(validateLogin('', 'pass123'))       // → 'Email is required'\nconsole.log(validateLogin('a@b.com', ''))       // → 'Password is required'\nconsole.log(validateLogin('bad', 'pass123'))    // → 'Invalid email format'\nconsole.log(validateLogin('a@b.com', '12345'))  // → 'Password must be at least 6 characters'\nconsole.log(validateLogin('a@b.com', 'hello'))  // → 'Password must be at least 6 characters'\nconsole.log(validateLogin('a@b.com', 'abcdef')) // → 'valid'" }
+    ],
+    "starterCode": "function validateLogin(email, password) {\n  // Check 1: Is email empty? (after trimming spaces)\n  // if (email.trim() === '') return 'Email is required'\n  \n  // Check 2: Is password empty?\n  // if (password.trim() === '') return 'Password is required'\n  \n  // Check 3: Does email contain '@'?\n  // if (!email.includes('@')) return 'Invalid email format'\n  \n  // Check 4: Is password 6+ characters?\n  // if (password.length < 6) return 'Password must be at least 6 characters'\n  \n  // All checks passed!\n  // return 'valid'\n}",
+    "testCases": [
+      { "name": "rejects empty email", "input": ["", "password123"], "expected": "Email is required" },
+      { "name": "rejects empty password", "input": ["a@b.com", ""], "expected": "Password is required" },
+      { "name": "rejects invalid email format", "input": ["notanemail", "password123"], "expected": "Invalid email format" },
+      { "name": "rejects short password", "input": ["a@b.com", "12345"], "expected": "Password must be at least 6 characters" },
+      { "name": "accepts valid input", "input": ["a@b.com", "password123"], "expected": "valid" }
+    ],
+    "hints": [
+      "Use .trim() before checking if something is empty — spaces count as characters!",
+      ".includes('@') returns true if the text contains @, false otherwise",
+      ".length gives you the character count — 'hi'.length is 2",
+      "Check conditions in order: email empty → password empty → invalid email → short password",
+      "As soon as you hit a problem, return the error message and stop"
+    ]
+  },
+  {
+    "id": "forms-submit",
+    "language": "JavaScript",
+    "title": "Submit & Handle",
+    "branch": "forms",
+    "prerequisites": ["forms-validation"],
+    "jobContext": "Every form on the web — signups, checkouts, search bars — uses this exact pattern. Without preventDefault(), the page refreshes and you lose everything.",
+    "animation": "forms-submit-scene",
+    "lesson": [
+      { "type": "heading", "content": "How Forms Normally Work" },
+      { "type": "text", "content": "When you click a Submit button on a webpage, the browser's default behavior is to reload the page and send the data somewhere. That's fine for old-school websites, but bad for modern apps — it wipes everything and feels jarring. We need to intercept the submit and handle it ourselves." },
+      { "type": "code", "content": "<!-- A typical form in HTML -->\n<form id=\"login-form\">\n  <input id=\"login-email\" type=\"text\" placeholder=\"Email\">\n  <input id=\"login-password\" type=\"password\" placeholder=\"Password\">\n  <button type=\"submit\">Log In</button>\n</form>\n\n<div id=\"result\"></div>\n\n<!-- Without JavaScript, clicking Submit would reload the page -->\n<!-- We're going to stop that from happening -->" },
+      { "type": "heading", "content": "addEventListener: Listening for Actions" },
+      { "type": "text", "content": "addEventListener is like telling JavaScript \"keep an eye on this element, and when THIS thing happens, run THIS code.\" The first argument is the event type ('submit' for forms, 'click' for buttons). The second argument is a function that runs when the event happens." },
+      { "type": "code", "content": "// Find the form\nlet form = document.getElementById('login-form')\n\n// Listen for when someone tries to submit it\nform.addEventListener('submit', function(e) {\n  // This code runs when the form is submitted\n  console.log('Form was submitted!')\n})\n// Now when Submit is clicked, \"Form was submitted!\" appears\n// But the page still reloads! We need to fix that next..." },
+      { "type": "heading", "content": "e.preventDefault(): The Page-Reload Stopper" },
+      { "type": "text", "content": "The 'e' in addEventListener('submit', function(e) { ... }) is short for 'event object.' It's a special object that contains information about what happened. One of its methods is .preventDefault(), which stops the browser from doing its default behavior — in this case, reloading the page." },
+      { "type": "code", "content": "form.addEventListener('submit', function(e) {\n  e.preventDefault()  // CRITICAL: stops page reload!\n  \n  console.log('The page did NOT reload!')\n  // Without e.preventDefault(), the page would refresh\n  // and you'd never see this message\n})" },
+      { "type": "heading", "content": "Putting It All Together" },
+      { "type": "text", "content": "Here's the full pattern: Find the form. Listen for submit. Stop the reload. Read the inputs. Check if the data is valid. Show a result on the page. Every form handler in the world follows these steps in order." },
+      { "type": "code", "content": "form.addEventListener('submit', function(e) {\n  e.preventDefault()  // Step 1: Stop page reload\n  \n  // Step 2: Read the values from the inputs\n  let email = document.getElementById('login-email').value\n  let password = document.getElementById('login-password').value\n  \n  // Step 3: Show something on the page\n  let result = document.getElementById('result')\n  result.textContent = 'Email: ' + email + ', Password: ' + password\n  // The page now shows: \"Email: a@b.com, Password: password123\"\n})" },
+      { "type": "heading", "content": "Your Mission" },
+      { "type": "text", "content": "Write a function handleSubmit() that does THREE things: (1) finds the form with id='login-form', (2) attaches a submit listener that calls e.preventDefault(), and (3) reads login-email and login-password and shows the combined result in the div with id='result'. The sandbox already has the HTML set up." },
+      { "type": "code", "content": "function handleSubmit() {\n  // Step 1: Find the form\n  let form = document.getElementById('login-form')\n  \n  // Step 2: Find the result display area\n  let result = document.getElementById('result')\n  \n  // Step 3: Tell the form to listen for submit\n  form.addEventListener('submit', function(e) {\n    e.preventDefault()  // Stop the page from reloading!\n    \n    // Step 4: Read the email and password\n    let email = document.getElementById('login-email').value\n    let password = document.getElementById('login-password').value\n    \n    // Step 5: Show the result on the page\n    result.textContent = 'Email: ' + email + ', Password: ' + password\n  })\n}\n\n// When handleSubmit() runs, it sets up everything.\n// Now clicking Submit will show the info without reloading!" }
+    ],
+    "starterCode": "function handleSubmit() {\n  // Step 1: Find the form\n  // let form = document.getElementById('login-form')\n  \n  // Step 2: Find the result display\n  // let result = document.getElementById('result')\n  \n  // Step 3: Tell the form: \"When submitted, do this\"\n  // form.addEventListener('submit', (e) => {\n  //   e.preventDefault()  // Stop the page reload!\n  //   \n  //   // Read the inputs (their ids are 'login-email' and 'login-password')\n  //   // let email = document.getElementById('login-email').value\n  //   \n  //   // Show a message\n  //   // result.textContent = 'Form submitted!'\n  // })\n}",
+    "testCases": [
+      { "name": "finds the form element", "input": [], "expected": true },
+      { "name": "attaches submit listener", "input": [], "expected": true },
+      { "name": "prevents default on submit", "input": [], "expected": true }
+    ],
+    "hints": [
+      "document.getElementById('login-form') finds the form by its id",
+      "Use .addEventListener('submit', function(e) { ... }) to listen for submits",
+      "e.preventDefault() is the FIRST thing inside your submit handler — before any other code",
+      "document.getElementById('login-email').value reads what's in an input in one line",
+      "result.textContent = '...' shows text inside the result div"
+    ]
+  }
+]

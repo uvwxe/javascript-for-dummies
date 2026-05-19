@@ -1,0 +1,171 @@
+.lesson-view {
+  display: flex;
+  gap: 32px;
+  animation: fadeUp var(--duration-slow) var(--ease-out) both;
+}
+
+@media (max-width: 720px) {
+  .lesson-view {
+    flex-direction: column;
+  }
+}
+
+.lesson-content {
+  flex: 1.1;
+  min-width: 0;
+}
+
+.lesson-editor {
+  flex: 0.9;
+  min-width: 0;
+  position: sticky;
+  top: calc(var(--nav-height) + 24px);
+  align-self: flex-start;
+}
+
+.lesson-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  letter-spacing: -0.3px;
+}
+
+.lesson-meta {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+.job-context-card {
+  background: var(--bg-dark);
+  color: var(--text-dark);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.job-context-card .label {
+  color: var(--accent-teal);
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.job-context-card .text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-dark-secondary);
+}
+
+.lesson-section-heading {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 24px;
+  margin-bottom: 10px;
+}
+
+.lesson-section-text {
+  font-size: 15px;
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+
+.lesson-section-code {
+  background: #f5f5f7;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  padding: 14px 18px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 14px;
+  white-space: pre-wrap;
+  overflow-x: auto;
+  border-left: 3px solid var(--accent);
+  line-height: 1.6;
+}
+
+.lesson-section-tip {
+  background: rgba(0, 113, 227, 0.06);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  margin-bottom: 14px;
+  font-size: 14px;
+  border-left: 3px solid var(--accent);
+  line-height: 1.6;
+}
+
+.lesson-section-tip strong {
+  color: var(--accent);
+}
+
+.lesson-hints {
+  margin-top: 20px;
+}
+
+.lesson-hints-btn {
+  background: none;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  padding: 8px 16px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.lesson-hints-btn:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.lesson-hints-list {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+.lesson-hints-list li {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.lesson-complete {
+  text-align: center;
+  padding: 48px 24px;
+  animation: scaleIn var(--duration) var(--ease-out) both;
+}
+
+.lesson-complete h2 {
+  font-size: 28px;
+  color: var(--success);
+  margin-bottom: 8px;
+}
+
+.lesson-complete p {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+.lesson-complete .xp-earned {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--accent-blue);
+}
+
+.lesson-complete .back-btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  padding: 12px 28px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 16px;
+}
+
+.lesson-complete .back-btn:hover {
+  filter: brightness(1.1);
+}

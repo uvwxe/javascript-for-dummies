@@ -1,0 +1,111 @@
+.editor-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.editor-textarea {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.7;
+  padding: 20px;
+  border: 1px solid #30363d;
+  border-radius: var(--radius);
+  resize: vertical;
+  min-height: 300px;
+  width: 100%;
+  tab-size: 2;
+  background: var(--bg-editor);
+  color: #c9d1d9;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.editor-textarea:focus {
+  outline: 1px solid var(--accent);
+  border-color: var(--accent);
+}
+
+.editor-run {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 10px 24px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: filter var(--duration-fast) var(--ease-out),
+              transform var(--duration-fast) var(--ease-out);
+  align-self: flex-start;
+}
+
+.editor-run:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.editor-run:active {
+  transform: translateY(0);
+}
+
+.results-container {
+  margin-top: 16px;
+}
+
+.result-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.result-row.pass {
+  background: rgba(52, 199, 89, 0.08);
+  border-left: 3px solid var(--success);
+}
+
+.result-row.fail {
+  background: rgba(255, 59, 48, 0.08);
+  border-left: 3px solid var(--error);
+}
+
+.result-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.result-detail {
+  flex: 1;
+}
+
+.result-name {
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.result-comparison {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+}
+
+.result-error {
+  font-size: 13px;
+  color: var(--error);
+  font-family: var(--font-mono);
+  margin-top: 2px;
+}
+
+.result-celebration {
+  text-align: center;
+  padding: 32px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--success);
+}

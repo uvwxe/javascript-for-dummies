@@ -1,0 +1,64 @@
+{
+  "branches": [
+    {
+      "id": "dom",
+      "title": "DOM Basics",
+      "description": "Select, modify, and interact with page elements",
+      "language": "JavaScript",
+      "icon": "🖥️",
+      "lessons": [
+        { "id": "dom-selectors", "title": "Finding Elements", "description": "getElementById, querySelector — how to grab anything on a page", "icon": "🔍", "prerequisites": [] },
+        { "id": "dom-events", "title": "Click & Respond", "description": "addEventListener — make your page react to users", "icon": "👆", "prerequisites": ["dom-selectors"] },
+        { "id": "dom-modify", "title": "Change the Page", "description": "innerHTML, textContent, classList — rewrite the DOM in real time", "icon": "✏️", "prerequisites": ["dom-events"] }
+      ]
+    },
+    {
+      "id": "forms",
+      "title": "Forms & Input",
+      "description": "Capture, validate, and handle user input",
+      "language": "JavaScript",
+      "icon": "📝",
+      "lessons": [
+        { "id": "forms-input", "title": "Get User Input", "description": "Input fields, textareas, reading values — the foundation of every web app", "icon": "⌨️", "prerequisites": ["dom-selectors"] },
+        { "id": "forms-validation", "title": "Validate Input", "description": "Check for empty fields, valid emails, password rules — real-world form validation", "icon": "✅", "prerequisites": ["forms-input"] },
+        { "id": "forms-submit", "title": "Submit & Handle", "description": "Form submit events, preventDefault, showing success/error states", "icon": "📨", "prerequisites": ["forms-validation"] }
+      ]
+    },
+    {
+      "id": "async",
+      "title": "Async & APIs",
+      "description": "Fetch data, handle promises, talk to servers",
+      "language": "JavaScript",
+      "icon": "🌐",
+      "lessons": [
+        { "id": "async-fetch", "title": "Fetch Data", "description": "fetch() — grab JSON from an API and show it on the page", "icon": "📡", "prerequisites": ["dom-modify"] },
+        { "id": "async-promises", "title": "Promises & Await", "description": "async/await — write clean async code that reads like sync", "icon": "⛓️", "prerequisites": ["async-fetch"] },
+        { "id": "async-errors", "title": "Handle Errors", "description": "try/catch, .catch(), loading states — what real apps do when APIs fail", "icon": "🛡️", "prerequisites": ["async-promises"] }
+      ]
+    },
+    {
+      "id": "python",
+      "title": "Python Basics",
+      "description": "Variables, functions, loops — start coding in Python",
+      "language": "Python",
+      "icon": "🐍",
+      "lessons": [
+        { "id": "python-vars", "title": "Variables & Types", "description": "Numbers, strings, booleans — Python's basic data types and how to use them", "icon": "📦", "prerequisites": [] },
+        { "id": "python-functions", "title": "Functions", "description": "def, parameters, return values — write reusable blocks of code", "icon": "🔧", "prerequisites": ["python-vars"] },
+        { "id": "python-loops", "title": "Loops & Lists", "description": "for loops, while loops, and Python lists — iterate and collect data", "icon": "🔁", "prerequisites": ["python-functions"] }
+      ]
+    },
+    {
+      "id": "arrays",
+      "title": "Arrays & Data",
+      "description": "Transform collections of data like a pro",
+      "language": "JavaScript",
+      "icon": "📊",
+      "lessons": [
+        { "id": "arrays-map", "title": "Map & Transform", "description": ".map() — turn one array into another. The most-used array method in production", "icon": "🗺️", "prerequisites": ["dom-modify"] },
+        { "id": "arrays-filter", "title": "Filter & Find", "description": ".filter() and .find() — narrow down data by criteria", "icon": "🔬", "prerequisites": ["arrays-map"] },
+        { "id": "arrays-reduce", "title": "Reduce & Aggregate", "description": ".reduce() — totals, groups, accumulations. Hard but worth it", "icon": "📐", "prerequisites": ["arrays-filter"] }
+      ]
+    }
+  ]
+}

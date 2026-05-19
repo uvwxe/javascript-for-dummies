@@ -1,0 +1,203 @@
+[
+  {
+    "id": "python-vars",
+    "title": "Variables & Types",
+    "language": "Python",
+    "branch": "python",
+    "prerequisites": [],
+    "jobContext": "Python is the #1 language for beginners and data science. Google, Netflix, and Spotify use it daily.",
+    "animation": "dom-selectors-scene",
+    "lesson": [
+      { "type": "heading", "content": "What You'll Learn" },
+      { "type": "text", "content": "By the end of this lesson, you'll know how to store information in Python using variables. You'll meet three kinds of data: text (strings), numbers, and true/false values (booleans). No coding experience needed!" },
+
+      { "type": "heading", "content": "What is a Variable?" },
+      { "type": "text", "content": "Think of a variable as a labeled box. You write a name on the outside, then put something inside. Later, you can peek inside the box, change what's in it, or pass the whole box to a friend.\n\nIn code, a variable stores a piece of data so you can use it later. You give it a name (the label), and Python remembers what you put in it." },
+      { "type": "code", "content": "# Creating a variable named 'age' that holds the number 25\nage = 25\n\n# Now whenever Python sees 'age', it knows it means 25\nprint(age)  # Output: 25" },
+
+      { "type": "heading", "content": "Text: Strings" },
+      { "type": "text", "content": "A string is just text — a word, a sentence, or even a single letter. You write strings inside quotes (single or double, Python doesn't care which).\n\nThink of it like a name tag at a conference: it tells you what to call something. The quotes are the edges of the tag." },
+      { "type": "code", "content": "name = 'Alice'       # A string with single quotes\ncity = \"New York\"    # A string with double quotes (also fine!)\nempty = ''            # An empty string — nothing inside\n\nprint(name)   # Output: Alice\nprint(city)   # Output: New York" },
+
+      { "type": "heading", "content": "Numbers: Integers and Floats" },
+      { "type": "text", "content": "Python has two main kinds of numbers:\n\n• An integer (int) is a whole number — no decimal point. Like counting people in a room: 1, 2, 3, 50, -10.\n• A float is a number with a decimal point. Like measuring something: 3.14, 99.99, -0.5.\n\nPython treats them both as numbers, so you can add, subtract, multiply, and divide them." },
+      { "type": "code", "content": "# Integers (whole numbers)\nscore = 95\nlives = 3\ntemperature = -5\n\n# Floats (numbers with decimals)\nprice = 19.99\npi = 3.14159\n\n# You can do math with either kind\nprint(score + lives)   # Output: 98\nprint(price * 2)       # Output: 39.98" },
+
+      { "type": "heading", "content": "True or False: Booleans" },
+      { "type": "text", "content": "A boolean is the simplest kind of data — it's either True or False. That's it.\n\nThink of it like a light switch: it's either on (True) or off (False). Booleans are how programs make decisions. \"Is the user logged in?\" True. \"Is it raining?\" False." },
+      { "type": "code", "content": "is_logged_in = True\nis_raining = False\nis_finished = True\n\nprint(is_logged_in)  # Output: True\nprint(is_raining)    # Output: False" },
+
+      { "type": "heading", "content": "Python is Smart About Types" },
+      { "type": "text", "content": "Here's where Python is extra friendly: you don't have to tell it what type of data you're storing. Just write the value, and Python figures it out automatically.\n\nSome languages make you say \"this is a string\" or \"this is a number.\" Python looks at the value and says, \"I got this.\" A value in quotes? It's a string. A number with no decimal? It's an integer. True or False? It's a boolean." },
+      { "type": "code", "content": "# Python figures out each type automatically\ntext = 'Hello'       # Python knows: this is a string\ncount = 42            # Python knows: this is an integer\nratio = 3.14          # Python knows: this is a float\nflag = True           # Python knows: this is a boolean\n\n# You can check the type yourself with type()\nprint(type(text))    # Output: <class 'str'>\nprint(type(count))   # Output: <class 'int'>\nprint(type(ratio))   # Output: <class 'float'>\nprint(type(flag))    # Output: <class 'bool'>" },
+
+      { "type": "heading", "content": "Using print() to See Results" },
+      { "type": "text", "content": "print() is your window into what Python is doing. Whatever you put inside the parentheses gets shown to you.\n\nThink of print() as asking Python \"What's in this variable?\" and Python shouting the answer back. You'll use it constantly to check your work and find bugs." },
+      { "type": "code", "content": "name = 'Alice'\nage = 25\nprint('Hello!')       # Output: Hello!\nprint(name)           # Output: Alice\nprint(age)            # Output: 25\n\n# You can print multiple things at once\nprint(name, age)      # Output: Alice 25" },
+
+      { "type": "heading", "content": "Quick Rules for Naming Variables" },
+      { "type": "text", "content": "You can name a variable almost anything, but there are a few rules:\n\n1. Use letters, numbers, and underscores only (no spaces!)\n2. Must start with a letter or underscore (not a number)\n3. Python is case-sensitive: age and Age are different variables\n4. Convention: use snake_case — lowercase words separated by underscores\n\nGood names make your code self-explanatory. user_age is way better than ua." },
+      { "type": "code", "content": "# Good variable names — you can guess what's inside\nfirst_name = 'Alice'\nuser_age = 30\nis_student = True\ntotal_price = 49.99\n\n# Bad variable names — what do these mean?\nx = 'Alice'       # No clue what 'x' represents\ndata = 30         # Data of what?\nt = True          # 't' could mean anything" },
+
+      { "type": "heading", "content": "Putting It All Together" },
+      { "type": "text", "content": "Let's see variables and types working together in a small example. Notice how we mix strings, numbers, and booleans in one program:" },
+      { "type": "code", "content": "# A mini profile program\nname = 'Alice'\nage = 25\nheight = 1.68\nis_student = True\n\nprint('Name:', name)\nprint('Age:', age)\nprint('Height (m):', height)\nprint('Student?', is_student)\n\n# Output:\n# Name: Alice\n# Age: 25\n# Height (m): 1.68\n# Student? True" },
+
+      { "type": "tip", "content": "When you name a variable, ask yourself: \"If someone else reads this code in a year, will they know what this holds?\" Good names = good code." },
+
+      { "type": "heading", "content": "You Try It" },
+      { "type": "text", "content": "Create three variables: one holding a number, one holding a string, and one holding a boolean. Then return them as a list (square brackets with commas inside, like [1, 2, 3]). We'll look at lists more in Lesson 3!" }
+    ],
+    "starterCode": "# Create three variables:\n# - my_number (any number)\n# - my_text (any string like 'hello')\n# - my_flag (True or False)\n# Then return them in a list\n\ndef get_values():\n    my_number = 42\n    my_text = 'hello'\n    my_flag = True\n    return [my_number, my_text, my_flag]",
+    "testCases": [
+      { "name": "returns a list", "input": [], "expected": "array" },
+      { "name": "has three elements", "input": [], "expected": 3 },
+      { "name": "first element is a number", "input": [], "expected": "number" },
+      { "name": "second is a string", "input": [], "expected": "string" },
+      { "name": "third is a boolean", "input": [], "expected": "boolean" }
+    ],
+    "hints": [
+      "A variable is just a name followed by = followed by a value",
+      "Strings need quotes: my_text = 'hello'",
+      "Booleans are just True or False (no quotes, capital letters)",
+      "A list uses square brackets: [item1, item2, item3]"
+    ]
+  },
+  {
+    "id": "python-functions",
+    "title": "Functions",
+    "language": "Python",
+    "branch": "python",
+    "prerequisites": ["python-vars"],
+    "jobContext": "Functions are the building blocks of every Python application. At companies like Instagram and Spotify, Python functions handle millions of requests daily — from API endpoints to data pipelines.",
+    "animation": "dom-events-scene",
+    "lesson": [
+      { "type": "heading", "content": "What You'll Learn" },
+      { "type": "text", "content": "Functions are reusable recipes for your code. You'll learn to define them with def, give them input (parameters), get results back (return), and call them whenever you need that recipe to run. And you'll see why indentation is a big deal in Python." },
+
+      { "type": "heading", "content": "What is a Function?" },
+      { "type": "text", "content": "A function is a packaged set of instructions. Think of it like a recipe card:\n\n1. You write the recipe once (defining the function)\n2. Whenever you want that dish, you just grab the card and follow it (calling the function)\n3. The recipe might need ingredients (parameters)\n4. It produces a finished dish (the return value)\n\nInstead of writing the same code over and over, you write it once in a function and reuse it." },
+
+      { "type": "heading", "content": "Defining a Function with def" },
+      { "type": "text", "content": "To create a function, start with the keyword def (short for \"define\"), then give it a name, then parentheses : and a colon.\n\nEverything inside the function is indented (pushed to the right). Python uses indentation — not curly braces like other languages — to know what's part of the function." },
+      { "type": "code", "content": "def say_hello():\n    print('Hello!')\n\n# The function is defined. Nothing happens yet.\n# You have to call it to make it run:\nsay_hello()  # Output: Hello!" },
+
+      { "type": "heading", "content": "Parameters: Giving Your Function Input" },
+      { "type": "text", "content": "Parameters are like blank spaces on a form — the function asks for information when it runs. You put variables inside the parentheses when defining the function, and the caller provides the actual values.\n\nThink of a vending machine: you press the button (call the function), and you put in money (the parameter). The machine uses your input to give you a result." },
+      { "type": "code", "content": "def greet(name):\n    print('Hello,', name)\n\n# 'name' is the parameter. We provide the value when calling:\ngreet('Alice')   # Output: Hello, Alice\ngreet('Bob')     # Output: Hello, Bob\n# Same function, different input each time!" },
+
+      { "type": "heading", "content": "Return Values: Getting Results Back" },
+      { "type": "text", "content": "Some functions just do something (like printing). But often you want the function to produce a value you can use later — that's what return does.\n\nThink of return as the function handing something back to you. Once a function returns, it stops running. Nothing after return happens." },
+      { "type": "code", "content": "def add_one(number):\n    result = number + 1\n    return result\n\n# The return value can be stored in a variable\nnew_number = add_one(5)\nprint(new_number)  # Output: 6\n\n# You can also use it directly\nprint(add_one(100))  # Output: 101" },
+
+      { "type": "heading", "content": "Calling a Function" },
+      { "type": "text", "content": "Defining a function just teaches Python what it should do. To actually run it, you call it by writing the function's name followed by parentheses.\n\nIf the function needs input, put it inside the parentheses. If it returns something, you can store or use that value." },
+      { "type": "code", "content": "# Define the function (the recipe)\ndef double(number):\n    return number * 2\n\n# Call the function (cook the dish)\nresult = double(4)\nprint(result)  # Output: 8\n\n# Call it again with a different value\nprint(double(21))  # Output: 42\n\n# You can even chain calls\nprint(double(double(3)))  # Output: 12  (3 -> 6 -> 12)" },
+
+      { "type": "heading", "content": "Indentation Matters (A Lot!)" },
+      { "type": "text", "content": "This is one of the most important things to know about Python: indentation is how Python knows what belongs to your function.\n\nIn many languages (JavaScript, C, Java), you use curly braces {} to group code. Python uses spaces or tabs. The standard is 4 spaces per level.\n\nIf your indentation is wrong, Python will crash with an IndentationError." },
+      { "type": "code", "content": "# Correct indentation — everything lines up at 4 spaces\ndef greet(name):\n    message = 'Hello, ' + name   # 4 spaces in\n    return message               # 4 spaces in\n    print('This never runs!')    # Also 4 spaces in, but after return\n\n# Wrong indentation — this causes an error!\ndef broken():\n    print('This line is indented')\n   print('This line is not aligned!')  # Error! Different indentation" },
+
+      { "type": "heading", "content": "Multiple Parameters" },
+      { "type": "text", "content": "Functions can take more than one parameter. Just separate them with commas. The order you define them is the order you must provide them." },
+      { "type": "code", "content": "def describe_pet(name, animal_type, age):\n    return name + ' is a ' + animal_type + ' who is ' + str(age) + ' years old.'\n\ninfo = describe_pet('Whiskers', 'cat', 7)\nprint(info)  # Output: Whiskers is a cat who is 7 years old.\n\n# Order matters! These parameters are positional:\n# First → name, Second → animal_type, Third → age" },
+
+      { "type": "heading", "content": "Functions Without Return" },
+      { "type": "text", "content": "Not every function needs a return. Some functions just do something and finish. In that case, the function returns None (Python's way of saying \"nothing\").\n\nThink of it like a teacher taking attendance: they call names (input), mark who's here (action), but don't hand you a result." },
+      { "type": "code", "content": "def show_welcome(name):\n    print('Welcome to Python,', name, '!')\n    # No return statement here\n\nresult = show_welcome('Alice')\n# Output: Welcome to Python, Alice!\n\nprint(result)  # Output: None (nothing was returned)" },
+
+      { "type": "heading", "content": "Function Naming Rules" },
+      { "type": "text", "content": "Same rules as variables: use snake_case, start with a letter or underscore, no spaces. But function names should describe action — they should start with a verb:\n\n• get_name() — gets something\n• calculate_total() — calculates something\n• is_valid() — checks something and returns True/False\n• send_email() — performs an action\n\nA good function name tells you what it does. get_name() is clear. fn1() is not." },
+
+      { "type": "heading", "content": "Putting It All Together" },
+      { "type": "text", "content": "Here's a small program that uses functions to build a simple calculator. Notice how each function does one specific thing:" },
+      { "type": "code", "content": "def add(a, b):\n    return a + b\n\ndef multiply(a, b):\n    return a * b\n\ndef describe(a, b, operation, result):\n    print(a, operation, b, '=', result)\n\n# Using the functions together\nx = 10\ny = 5\n\nsum_result = add(x, y)\ndescribe(x, y, '+', sum_result)\n# Output: 10 + 5 = 15\n\nproduct = multiply(x, y)\ndescribe(x, y, '*', product)\n# Output: 10 * 5 = 50" },
+
+      { "type": "tip", "content": "A good rule of thumb: each function should do exactly one thing. If you can't describe what a function does in a single sentence, it might be trying to do too much." },
+
+      { "type": "heading", "content": "You Try It" },
+      { "type": "text", "content": "Write two functions. add_numbers(a, b) should return the sum of two numbers. get_greeting(name) should return the string 'Hello, {name}!' (you can do this with + or with an f-string like f'Hello, {name}!')." }
+    ],
+    "starterCode": "def add_numbers(a, b):\n    # Return the sum of a and b\n    pass\n\ndef get_greeting(name):\n    # Return 'Hello, {name}!'\n    pass\n",
+    "testCases": [
+      { "name": "add_numbers adds correctly", "input": [3, 7], "expected": 10 },
+      { "name": "add_numbers handles negatives", "input": [-2, 5], "expected": 3 },
+      { "name": "add_numbers returns zero for opposites", "input": [10, -10], "expected": 0 },
+      { "name": "get_greeting returns greeting", "input": ["Alice"], "expected": "Hello, Alice!" }
+    ],
+    "hints": [
+      "Use def function_name(parameters): — don't forget the colon!",
+      "Indent the function body by 4 spaces",
+      "Return the result with the return keyword",
+      "For get_greeting, either use +: 'Hello, ' + name + '!' or an f-string: f'Hello, {name}!'"
+    ]
+  },
+  {
+    "id": "python-loops",
+    "title": "Loops & Lists",
+    "language": "Python",
+    "branch": "python",
+    "prerequisites": ["python-functions"],
+    "jobContext": "Processing collections of data — user records, log entries, sensor readings — is what most Python jobs involve. for loops and lists are the tools you'll use every single day in production.",
+    "animation": "arrays-map-scene",
+    "lesson": [
+      { "type": "heading", "content": "What You'll Learn" },
+      { "type": "text", "content": "You'll learn about lists (Python's version of a collection) and two ways to repeat code: for loops (go through each item in a list) and while loops (keep going until a condition is met). These are how Python handles repeating work." },
+
+      { "type": "heading", "content": "What is a List?" },
+      { "type": "text", "content": "A list is an ordered collection of items. Think of it like a numbered tray at a cafeteria — each slot holds one item, and the slots stay in order.\n\nIn Python, you create a list with square brackets [], with items separated by commas. Lists can hold any type of data: strings, numbers, booleans, even other lists." },
+      { "type": "code", "content": "# A list of strings\nfruits = ['apple', 'banana', 'cherry']\n\n# A list of numbers\nscores = [95, 82, 78, 91]\n\n# A mixed list (this is fine!)\nmixed = ['Alice', 25, True]\n\n# An empty list — you can add items later\nempty = []\n\nprint(fruits)   # Output: ['apple', 'banana', 'cherry']\nprint(scores)   # Output: [95, 82, 78, 91]" },
+
+      { "type": "heading", "content": "Accessing Items in a List" },
+      { "type": "text", "content": "Each item in a list has a position called an index. Python starts counting at 0 (not 1). So the first item is at index 0, the second at index 1, and so on.\n\nIt feels weird at first, but every programming language does it this way. Think of it as \"how many steps from the start\" — zero steps to reach the first item." },
+      { "type": "code", "content": "fruits = ['apple', 'banana', 'cherry', 'date']\n\nprint(fruits[0])  # Output: apple   (first item)\nprint(fruits[1])  # Output: banana  (second item)\nprint(fruits[3])  # Output: date    (fourth item)\n\n# Negative indexes count from the end\nprint(fruits[-1])  # Output: date  (last item)\nprint(fruits[-2])  # Output: cherry (second from last)" },
+
+      { "type": "heading", "content": "For Loops: Do Something With Every Item" },
+      { "type": "text", "content": "A for loop lets you go through each item in a list, one at a time, and do something with it. Think of it like a teacher going through a roll call — picks each name, calls it out, then moves to the next.\n\nThe pattern is: for [variable_name] in [list_name]: — Python will automatically assign each item to your variable as it goes through the list." },
+      { "type": "code", "content": "fruits = ['apple', 'banana', 'cherry']\n\nfor fruit in fruits:\n    print(fruit)\n\n# Output:\n# apple\n# banana\n# cherry\n\n# The variable 'fruit' changes each time through the loop:\n# First time: fruit = 'apple'\n# Second time: fruit = 'banana'\n# Third time: fruit = 'cherry'" },
+
+      { "type": "heading", "content": "For Loops with Numbers" },
+      { "type": "text", "content": "You can do math inside a loop too! A common pattern is to keep a running total — start with 0, then add each number as you go through the list." },
+      { "type": "code", "content": "temperatures = [72, 68, 75, 80, 71]\ntotal = 0  # Start the total at 0\n\nfor temp in temperatures:\n    total = total + temp  # Add each temperature to the total\n\naverage = total / len(temperatures)\nprint('Total:', total)     # Output: Total: 366\nprint('Average:', average) # Output: Average: 73.2\n\n# len() tells you how many items are in a list" },
+
+      { "type": "heading", "content": "While Loops: Repeat Until..." },
+      { "type": "text", "content": "A while loop is different from a for loop. Instead of going through items in a list, a while loop keeps running as long as a condition is True. Think of it like waiting for toast to pop up: you keep checking (is it done yet?) and only stop when the answer is yes." },
+      { "type": "code", "content": "count = 1\n\nwhile count <= 5:\n    print('Count is:', count)\n    count = count + 1  # Don't forget this line!\n\nprint('Done!')\n\n# Output:\n# Count is: 1\n# Count is: 2\n# Count is: 3\n# Count is: 4\n# Count is: 5\n# Done!" },
+
+      { "type": "heading", "content": "While Loop Pitfall: Infinite Loops" },
+      { "type": "text", "content": "Here's the big warning: if the condition in a while loop never becomes False, the loop runs forever. This is called an infinite loop, and it will freeze your program.\n\nAlways make sure something inside the loop changes the condition. In the example above, count = count + 1 makes count eventually reach 5, so count <= 5 becomes False and the loop stops." },
+      { "type": "code", "content": "# Infinite loop — DON'T RUN THIS!\n# x = 1\n# while x > 0:\n#     print(x)\n#     # Nothing changes x, so x > 0 is ALWAYS True\n\n# The fix: change x inside the loop so it eventually stops\nx = 1\nwhile x < 100:\n    print(x)\n    x = x * 2  # x grows: 1, 2, 4, 8, 16, 32, 64, 128 — then stops\n# Output: 1 2 4 8 16 32 64" },
+
+      { "type": "heading", "content": "List Operations" },
+      { "type": "text", "content": "Python lists have built-in shortcuts for common tasks:\n\n• .append(item) — adds an item to the end\n• .remove(item) — removes the first matching item\n• len(list) — tells you how many items\n• in — checks if an item exists (True or False)" },
+      { "type": "code", "content": "colors = ['red', 'blue']\n\n# Add to the end\ncolors.append('green')\nprint(colors)  # Output: ['red', 'blue', 'green']\n\n# Check if something exists\nprint('blue' in colors)   # Output: True\nprint('yellow' in colors)  # Output: False\n\n# How many items?\nprint(len(colors))  # Output: 3\n\n# Remove an item\ncolors.remove('red')\nprint(colors)  # Output: ['blue', 'green']" },
+
+      { "type": "heading", "content": "For vs While: When to Use Which" },
+      { "type": "text", "content": "Here's a simple guide:\n\n• Use a for loop when you know what items to go through (like a list)\n• Use a while loop when you're waiting for something to happen (like a condition to change)\n\nMost of the time, you'll use for loops. While loops are for situations where you don't know in advance how many times you need to repeat." },
+      { "type": "code", "content": "# FOR loop — you know exactly what items to process\nscores = [85, 92, 78, 95]\nfor score in scores:\n    print(score)\n\n# WHILE loop — you're waiting for a condition\nimport random\nattempts = 0\nfound = False\n\nwhile not found:\n    roll = random.randint(1, 6)\n    attempts = attempts + 1\n    if roll == 6:\n        found = True  # Found it! Loop stops\n        print('Got a 6 in', attempts, 'tries')" },
+
+      { "type": "heading", "content": "Putting It All Together" },
+      { "type": "text", "content": "Here's a program that combines lists, for loops, and while loops to analyze a list of test scores:" },
+      { "type": "code", "content": "scores = [88, 75, 92, 60, 85, 90]\n\n# For loop: count passing scores (70+)\npassing = 0\nfor score in scores:\n    if score >= 70:\n        passing = passing + 1\n\nprint('Passing scores:', passing)  # Output: Passing scores: 5\n\n# While loop: bonus points until all pass\nbonus = 0\nlowest = min(scores)\nwhile lowest < 70:\n    bonus = bonus + 1\n    lowest = lowest + 1\n\nprint('Bonus needed:', bonus)  # Output: Bonus needed: 10" },
+
+      { "type": "tip", "content": "Python's for loop is a \"for-each\" loop — it gives you the items directly, not their positions. If you need the position too, use enumerate(): for i, item in enumerate(my_list): gives you both the index (i) and the value (item)." },
+
+      { "type": "heading", "content": "You Try It" },
+      { "type": "text", "content": "Write two functions. sum_list(numbers) should return the sum of all numbers in a list (use a for loop). count_positive(numbers) should return how many numbers in the list are greater than 0 (hint: check each one with an if inside your loop)." }
+    ],
+    "starterCode": "def sum_list(numbers):\n    total = 0\n    # Loop through each number and add it to total\n    pass\n\ndef count_positive(numbers):\n    count = 0\n    # Loop through each number\n    # If it's greater than 0, add 1 to count\n    pass\n",
+    "testCases": [
+      { "name": "sum_list sums correctly", "input": [[1, 2, 3, 4, 5]], "expected": 15 },
+      { "name": "sum_list handles empty list", "input": [[]], "expected": 0 },
+      { "name": "count_positive counts correctly", "input": [[-1, 0, 5, -3, 10]], "expected": 2 },
+      { "name": "count_positive handles all negative", "input": [[-1, -2, -3]], "expected": 0 },
+      { "name": "count_positive excludes zero", "input": [[0]], "expected": 0 }
+    ],
+    "hints": [
+      "For sum_list, start total = 0, then add each number with total = total + num",
+      "For count_positive, start count = 0, then use if num > 0: to check each item",
+      "Loop with: for item in list_name: — don't forget the colon",
+      "Indent the loop body by 4 spaces"
+    ]
+  }
+]
