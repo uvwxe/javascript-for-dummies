@@ -3,6 +3,7 @@
 Learn to code by building real stuff — not textbook exercises.
 
 Every lesson teaches a skill you'd actually use on the job. Pixel-art animations set the context. Step-by-step walkthroughs explain every concept in plain English. Automated unit tests verify you got it right.
+Fun practical project testing with deepseek
 
 ---
 
