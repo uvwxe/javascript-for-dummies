@@ -50,35 +50,56 @@ npm run preview   # Preview the production build
 
 ## Generate New Lessons (BYOK)
 
-Generate lessons with your own API key. No key bundled — you bring yours.
+Bring your own AI key. No keys bundled in the code. Works with any major provider.
 
-### Get a key
+### Quick one-liner
 
-1. Go to https://console.anthropic.com/ and sign up
-2. Create an API key (it starts with `sk-ant-...`)
-3. Set it as an environment variable:
+```bash
+# Set your key, then generate:
+export ANTHROPIC_API_KEY=sk-ant-...   # or OPENAI_API_KEY, GEMINI_API_KEY, etc.
+npm run generate-lesson -- --topic "Form Validation" --branch forms --language JavaScript
+```
+
+### Supported providers
+
+| Provider | Env Variable | Get a key |
+|----------|-------------|-----------|
+| **Anthropic** (Claude) | `ANTHROPIC_API_KEY` | https://console.anthropic.com/ |
+| **OpenAI** (GPT) | `OPENAI_API_KEY` | https://platform.openai.com/api-keys |
+| **Google** (Gemini) | `GEMINI_API_KEY` | https://aistudio.google.com/apikey |
+| **DeepSeek** | `DEEPSEEK_API_KEY` | https://platform.deepseek.com/ |
+| **OpenRouter** (many models) | `OPENROUTER_API_KEY` | https://openrouter.ai/keys |
+| **Groq** (fast + free) | `GROQ_API_KEY` | https://console.groq.com/keys |
+| **Generic** | `AI_API_KEY` | Use with `--provider` flag |
+
+### Set your key
 
 ```bash
 # Windows Command Prompt
 set ANTHROPIC_API_KEY=sk-ant-...
 
 # Windows PowerShell
-$env:ANTHROPIC_API_KEY="sk-ant-..."
+$env:OPENAI_API_KEY="sk-proj-..."
 
 # macOS / Linux
-export ANTHROPIC_API_KEY=sk-ant-...
+export GEMINI_API_KEY=your-key-here
 ```
 
 ### Generate a lesson
 
 ```bash
-# With your API key set, run:
 npm run generate-lesson -- --topic "Form Validation" --branch forms --language JavaScript --deps "forms-input"
 ```
 
-If no API key is set, it uses template generation (less specific but works without a key).
+Auto-detects the provider from your env variable. Use `--provider` to override:
 
-### Options
+```bash
+npm run generate-lesson -- --topic "..." --branch dom --provider openai
+```
+
+No key set? Falls back to template generation (works without any API key).
+
+### All options
 
 ```
 --topic     What the lesson teaches (e.g. "Form Validation")
@@ -86,7 +107,8 @@ If no API key is set, it uses template generation (less specific but works witho
 --language  Programming language (JavaScript, Python)
 --deps      Prerequisite lesson IDs, comma-separated
 --output    Write to src/data/lessons/[name].json (prints to terminal if omitted)
---help      Show all available options
+--provider  Force a specific provider (anthropic, openai, deepseek, openrouter, gemini, groq)
+--help      Show all options
 ```
 
 **Examples:**
@@ -99,7 +121,7 @@ npm run generate-lesson -- --topic "Array Methods" --branch arrays --language Ja
 npm run generate-lesson -- --topic "Async Error Handling" --branch async --language JavaScript --output async-errors-advanced
 ```
 
-After generating, restart the dev server (`npm run dev`) to see the new lesson in the skill tree.
+After generating, restart `npm run dev` to see the new lesson in the skill tree.
 
 ---
 

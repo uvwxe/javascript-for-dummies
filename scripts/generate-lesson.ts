@@ -7,6 +7,7 @@ interface CliArgs {
   language: string;
   deps: string;
   output?: string;
+  provider?: string;
 }
 
 function parseArgs(): CliArgs {
@@ -25,12 +26,14 @@ function parseArgs(): CliArgs {
     }
   }
 
-  const topic = args.topic || 'DOM Selectors';
-  const branch = args.branch || 'dom';
-  const language = args.language || 'JavaScript';
-  const deps = args.deps || '';
-
-  return { topic, branch, language, deps, output: args.output };
+  return {
+    topic: args.topic || 'DOM Selectors',
+    branch: args.branch || 'dom',
+    language: args.language || 'JavaScript',
+    deps: args.deps || '',
+    output: args.output,
+    provider: args.provider,
+  };
 }
 
 function slugify(text: string): string {
@@ -104,12 +107,8 @@ function getAnimationScene(args: CliArgs): string {
 }
 
 function generateSections(topic: string, language: string): LessonSection[] {
-  const isPython = language.toLowerCase() === 'python';
-  const varExample = isPython ? "name = 'World'" : "const name = 'World';";
-  const fnExample = isPython ? 'def get_value():\n    return 42' : 'function getValue() {\n  return 42;\n}';
-
   const sections: LessonSection[] = [
-    { type: 'heading', content: 'What You\'ll Learn' },
+    { type: 'heading', content: "What You'll Learn" },
     {
       type: 'text',
       content: `You'll learn the fundamentals of ${topic} in ${language}. This is a core skill used in production applications every day.`,
@@ -117,11 +116,7 @@ function generateSections(topic: string, language: string): LessonSection[] {
     { type: 'heading', content: 'Core Concept' },
     {
       type: 'text',
-      content: `${topic} is about understanding how to write clean, correct code that solves real problems. Here's the basic pattern:`,
-    },
-    {
-      type: 'code',
-      content: `${fnExample}\n\n// ${topic} in ${language}`,
+      content: `${topic} is about understanding how to write clean, correct code that solves real problems.`,
     },
     {
       type: 'tip',
@@ -152,23 +147,15 @@ def get_values():
     }
     if (topic.toLowerCase().includes('function')) {
       return `# Write a function called add_numbers(a, b) that returns their sum
-# Also write get_greeting(name) that returns "Hello, {name}!"
 
 def add_numbers(a, b):
-    pass
-
-def get_greeting(name):
     pass
 `;
     }
     if (topic.toLowerCase().includes('loop') || topic.toLowerCase().includes('list')) {
       return `# Write a function called sum_list(numbers) that returns the sum of all numbers
-# Write count_positive(numbers) that returns how many numbers are > 0
 
 def sum_list(numbers):
-    pass
-
-def count_positive(numbers):
     pass
 `;
     }
@@ -213,15 +200,12 @@ function generateTestCases(topic: string, branch: string, language: string): Tes
         { name: 'has add_numbers function', input: [], expected: 'function' },
         { name: 'add_numbers adds correctly', input: [3, 7], expected: 10 },
         { name: 'add_numbers handles negatives', input: [-2, 5], expected: 3 },
-        { name: 'get_greeting returns greeting', input: ['Alice'], expected: 'Hello, Alice!' },
       ];
     }
     if (topic.toLowerCase().includes('loop') || topic.toLowerCase().includes('list')) {
       return [
         { name: 'sum_list sums correctly', input: [[1, 2, 3, 4, 5]], expected: 15 },
         { name: 'sum_list handles empty', input: [[]], expected: 0 },
-        { name: 'count_positive works', input: [[-1, 0, 5, -3, 10]], expected: 2 },
-        { name: 'count_positive handles all negative', input: [[-1, -2, -3]], expected: 0 },
       ];
     }
   }
@@ -237,7 +221,6 @@ function generateTestCases(topic: string, branch: string, language: string): Tes
     return [
       { name: 'returns an object', input: [], expected: 'object' },
       { name: 'has expected properties', input: [], expected: true },
-      { name: 'function handles empty input', input: [], expected: 'object' },
     ];
   }
   if (branch === 'arrays') {
@@ -251,7 +234,6 @@ function generateTestCases(topic: string, branch: string, language: string): Tes
     return [
       { name: 'returns a promise', input: [], expected: 'promise' },
       { name: 'resolves to expected data', input: [], expected: true },
-      { name: 'throws on error', input: [], expected: true },
     ];
   }
 
@@ -268,7 +250,6 @@ function generateHints(topic: string, branch: string, language: string): string[
     return [
       'Use def to define a function',
       'Return values with the return keyword',
-      'Remember to call your function correctly',
     ];
   }
 
@@ -340,7 +321,7 @@ function printLesson(lesson: Lesson): void {
   console.log();
 }
 
-// ── Anthropic API generation ──────────────────────────────────────────
+// ── Multi-Provider AI Generation ─────────────────────────────────────
 
 const SYSTEM_PROMPT = `You are a coding education content generator for CodeLabs.
 You MUST output valid JSON only — no markdown, no explanation, no code fences.
@@ -370,56 +351,208 @@ Rules:
 - The "expected" field in testCases can be a literal value (string, number, boolean) OR an empty array []
   OR one of these type-check strings: "string", "number", "boolean", "array", "object", "element", "promise", "function"`;
 
-async function generateWithClaude(args: CliArgs): Promise<Lesson> {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) throw new Error('ANTHROPIC_API_KEY not set');
+type Provider = 'anthropic' | 'openai' | 'deepseek' | 'openrouter' | 'gemini' | 'groq';
 
+interface ProviderConfig {
+  name: string;
+  keyEnv: string;
+  detectPrefix?: string;
+  baseUrl: string;
+  model: string;
+  format: 'anthropic' | 'openai' | 'gemini';
+  authHeader: string;
+  authFormat: (key: string) => string;
+}
+
+const PROVIDERS: Record<Provider, ProviderConfig> = {
+  anthropic: {
+    name: 'Anthropic (Claude)',
+    keyEnv: 'ANTHROPIC_API_KEY',
+    detectPrefix: 'sk-ant-',
+    baseUrl: 'https://api.anthropic.com/v1/messages',
+    model: 'claude-3-5-haiku-latest',
+    format: 'anthropic',
+    authHeader: 'x-api-key',
+    authFormat: (k) => k,
+  },
+  openai: {
+    name: 'OpenAI (GPT)',
+    keyEnv: 'OPENAI_API_KEY',
+    detectPrefix: 'sk-proj-',
+    baseUrl: 'https://api.openai.com/v1/chat/completions',
+    model: 'gpt-4o-mini',
+    format: 'openai',
+    authHeader: 'Authorization',
+    authFormat: (k) => `Bearer ${k}`,
+  },
+  deepseek: {
+    name: 'DeepSeek',
+    keyEnv: 'DEEPSEEK_API_KEY',
+    detectPrefix: 'sk-',
+    baseUrl: 'https://api.deepseek.com/v1/chat/completions',
+    model: 'deepseek-chat',
+    format: 'openai',
+    authHeader: 'Authorization',
+    authFormat: (k) => `Bearer ${k}`,
+  },
+  openrouter: {
+    name: 'OpenRouter',
+    keyEnv: 'OPENROUTER_API_KEY',
+    baseUrl: 'https://openrouter.ai/api/v1/chat/completions',
+    model: 'openai/gpt-4o-mini',
+    format: 'openai',
+    authHeader: 'Authorization',
+    authFormat: (k) => `Bearer ${k}`,
+  },
+  gemini: {
+    name: 'Google Gemini',
+    keyEnv: 'GEMINI_API_KEY',
+    baseUrl: 'https://generativelanguage.googleapis.com/v1beta/models',
+    model: 'gemini-2.0-flash',
+    format: 'gemini',
+    authHeader: 'x-goog-api-key',
+    authFormat: (k) => k,
+  },
+  groq: {
+    name: 'Groq',
+    keyEnv: 'GROQ_API_KEY',
+    baseUrl: 'https://api.groq.com/openai/v1/chat/completions',
+    model: 'llama-3.3-70b-versatile',
+    format: 'openai',
+    authHeader: 'Authorization',
+    authFormat: (k) => `Bearer ${k}`,
+  },
+};
+
+function detectProvider(args: CliArgs): Provider | null {
+  if (args.provider) {
+    const p = args.provider.toLowerCase();
+    if (p in PROVIDERS) return p as Provider;
+    console.log(`\n  Unknown provider "${args.provider}". Known: ${Object.keys(PROVIDERS).join(', ')}`);
+    return null;
+  }
+
+  const checkOrder: Provider[] = ['anthropic', 'openai', 'gemini', 'deepseek', 'openrouter', 'groq'];
+
+  for (const p of checkOrder) {
+    if (process.env[PROVIDERS[p].keyEnv]) return p;
+  }
+
+  const aiKey = process.env.AI_API_KEY;
+  if (aiKey) {
+    for (const p of checkOrder) {
+      const prefix = PROVIDERS[p].detectPrefix;
+      if (prefix && aiKey.startsWith(prefix)) return p;
+    }
+    console.log('\n  AI_API_KEY set but could not detect provider from key prefix.');
+    console.log('  Use --provider to specify one.');
+    return null;
+  }
+
+  return null;
+}
+
+function buildUserPrompt(args: CliArgs): string {
   const depsList = args.deps ? args.deps.split(',').map((d) => d.trim()).filter(Boolean) : [];
-  const scene = getAnimationScene(args);
-
-  const userPrompt = `Generate a CodeLabs lesson:
+  return `Generate a CodeLabs lesson:
 - Topic: ${args.topic}
 - Language: ${args.language}
 - Branch ID: ${args.branch}
 - Prerequisites (lesson IDs): [${depsList.join(', ')}]
-- Animation scene ID: ${scene}
+- Animation scene ID: ${getAnimationScene(args)}
 
 Make it practical, job-relevant, and engaging. Include realistic test cases.`;
+}
 
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
+async function callAnthropic(cfg: ProviderConfig, args: CliArgs): Promise<Lesson> {
+  const key = process.env[cfg.keyEnv]!;
+  const res = await fetch(cfg.baseUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': apiKey,
+      [cfg.authHeader]: cfg.authFormat(key),
       'anthropic-version': '2023-06-01',
     },
     body: JSON.stringify({
-      model: 'claude-3-5-haiku-latest',
+      model: cfg.model,
       max_tokens: 4096,
       system: SYSTEM_PROMPT,
-      messages: [{ role: 'user', content: userPrompt }],
+      messages: [{ role: 'user', content: buildUserPrompt(args) }],
     }),
   });
+  if (!res.ok) throw new Error(`${cfg.name} error ${res.status}: ${(await res.text()).slice(0, 200)}`);
+  const data = (await res.json()) as { content: { type: string; text: string }[] };
+  const text = data.content.filter((c) => c.type === 'text').map((c) => c.text).join('');
+  const jsonMatch = text.match(/\{[\s\S]*\}/);
+  if (!jsonMatch) throw new Error('No JSON found in response');
+  return JSON.parse(jsonMatch[0]) as Lesson;
+}
 
-  if (!res.ok) {
-    const body = await res.text();
-    throw new Error(`Anthropic API error ${res.status}: ${body.slice(0, 200)}`);
+async function callOpenAICompatible(cfg: ProviderConfig, args: CliArgs): Promise<Lesson> {
+  const key = process.env[cfg.keyEnv]!;
+  const res = await fetch(cfg.baseUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      [cfg.authHeader]: cfg.authFormat(key),
+    },
+    body: JSON.stringify({
+      model: cfg.model,
+      max_tokens: 4096,
+      messages: [
+        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'user', content: buildUserPrompt(args) },
+      ],
+    }),
+  });
+  if (!res.ok) throw new Error(`${cfg.name} error ${res.status}: ${(await res.text()).slice(0, 200)}`);
+  const data = (await res.json()) as { choices: { message: { content: string } }[] };
+  const text = data.choices?.[0]?.message?.content || '';
+  const jsonMatch = text.match(/\{[\s\S]*\}/);
+  if (!jsonMatch) throw new Error('No JSON found in response');
+  return JSON.parse(jsonMatch[0]) as Lesson;
+}
+
+async function callGemini(cfg: ProviderConfig, args: CliArgs): Promise<Lesson> {
+  const key = process.env[cfg.keyEnv]!;
+  const url = `${cfg.baseUrl}/${cfg.model}:generateContent?key=${key}`;
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+      contents: [{ parts: [{ text: buildUserPrompt(args) }] }],
+      generationConfig: { maxOutputTokens: 4096 },
+    }),
+  });
+  if (!res.ok) throw new Error(`${cfg.name} error ${res.status}: ${(await res.text()).slice(0, 200)}`);
+  const data = (await res.json()) as { candidates: { content: { parts: { text: string }[] } }[] };
+  const text = data.candidates?.[0]?.content?.parts?.map((p) => p.text).join('') || '';
+  const jsonMatch = text.match(/\{[\s\S]*\}/);
+  if (!jsonMatch) throw new Error('No JSON found in response');
+  return JSON.parse(jsonMatch[0]) as Lesson;
+}
+
+async function generateWithProvider(args: CliArgs): Promise<{ lesson: Lesson; providerName: string }> {
+  const provider = detectProvider(args);
+  if (!provider) throw new Error('No provider detected');
+
+  const cfg = PROVIDERS[provider];
+  const key = process.env[cfg.keyEnv] || process.env.AI_API_KEY;
+  if (!key) throw new Error(`${cfg.keyEnv} or AI_API_KEY not set`);
+
+  console.log(`\n  Using ${cfg.name} (${cfg.model})...\n`);
+
+  let lesson: Lesson;
+  if (cfg.format === 'anthropic') {
+    lesson = await callAnthropic(cfg, args);
+  } else if (cfg.format === 'gemini') {
+    lesson = await callGemini(cfg, args);
+  } else {
+    lesson = await callOpenAICompatible(cfg, args);
   }
 
-  const data = (await res.json()) as {
-    content: { type: string; text: string }[];
-  };
-
-  const text = data.content
-    .filter((c) => c.type === 'text')
-    .map((c) => c.text)
-    .join('');
-
-  const jsonMatch = text.match(/\{[\s\S]*\}/);
-  if (!jsonMatch) throw new Error('No JSON found in Claude response');
-
-  const lesson = JSON.parse(jsonMatch[0]) as Lesson;
-  return lesson;
+  return { lesson, providerName: cfg.name };
 }
 
 // ── Help ───────────────────────────────────────────────────────────────
@@ -436,25 +569,42 @@ function printHelp(): void {
     --branch    Skill tree branch (dom, forms, async, arrays, python)
     --language  Programming language (JavaScript, Python)
     --deps      Prerequisite lesson IDs, comma-separated (e.g. "forms-input")
-    --output    Output filename (without path, written to src/data/lessons/)
+    --output    Output filename (written to src/data/lessons/)
+    --provider  Force a specific AI provider (default: auto-detect)
     --help      Show this help message
 
   EXAMPLES:
-    npm run generate-lesson -- --topic "Form Validation" --branch forms --language JavaScript --deps "forms-input"
+    npm run generate-lesson -- --topic "Form Validation" --branch forms --language JavaScript
     npm run generate-lesson -- --topic "Map & Filter" --branch arrays --language JavaScript --deps "arrays-map"
     npm run generate-lesson -- --help
 
-  BYOK (AI-Powered Generation):
-    1. Get an Anthropic API key at https://console.anthropic.com/
-    2. Set it as an environment variable:
-       Windows:   set ANTHROPIC_API_KEY=sk-ant-...
-       PowerShell: $env:ANTHROPIC_API_KEY="sk-ant-..."
-       macOS/Linux: export ANTHROPIC_API_KEY=sk-ant-...
-    3. Run the same command — it'll use Claude instead of templates.
-       Falls back to templates if the API call fails.
+  SET UP YOUR OWN AI KEY (BYOK):
+
+    Set ONE of these environment variables with your key:
+
+      ANTHROPIC_API_KEY  for Claude
+      OPENAI_API_KEY     for GPT
+      GEMINI_API_KEY     for Gemini
+      DEEPSEEK_API_KEY   for DeepSeek
+      OPENROUTER_API_KEY for OpenRouter
+      GROQ_API_KEY       for Groq
+
+    Or set AI_API_KEY for generic compatible keys.
+
+    Windows Cmd:       set ANTHROPIC_API_KEY=sk-ant-...
+    PowerShell:        $env:ANTHROPIC_API_KEY="sk-ant-..."
+    macOS / Linux:     export ANTHROPIC_API_KEY=sk-ant-...
+
+    Run the same command — if a key is found, it'll use AI.
+    Falls back to template generation if the API call fails.
+
+    Use --provider to override auto-detection:
+      npm run generate-lesson -- --topic "..." --branch dom --provider openai
+
+    Supported providers: anthropic, openai, deepseek, openrouter, gemini, groq
 
   OUTPUT:
-    By default, prints the lesson JSON to stdout.
+    Prints lesson JSON to terminal by default.
     Use --output to write to src/data/lessons/[name].json
 `);
 }
@@ -471,24 +621,24 @@ async function main(): Promise<void> {
   const prerequisites = depsList;
 
   let lesson: Lesson;
+  let usedProvider = false;
 
-  // Try Claude first if API key is available
-  if (process.env.ANTHROPIC_API_KEY) {
-    console.log('\n  Using Anthropic API for generation...\n');
-    try {
-      lesson = await generateWithClaude(args);
-      console.log('  Generated via Claude API.');
-    } catch (err) {
-      console.log(`  Claude API failed: ${err instanceof Error ? err.message : err}`);
+  try {
+    const result = await generateWithProvider(args);
+    lesson = result.lesson;
+    usedProvider = true;
+    console.log(`  Generated via ${result.providerName}.\n`);
+  } catch (err) {
+    if (err instanceof Error && err.message.includes('No provider detected')) {
+      console.log('\n  No AI API key found. Set one of: ANTHROPIC_API_KEY, OPENAI_API_KEY, GEMINI_API_KEY, DEEPSEEK_API_KEY, OPENROUTER_API_KEY, GROQ_API_KEY, or AI_API_KEY');
+      console.log('  Using template-based generation...\n');
+    } else if (err instanceof Error) {
+      console.log(`  AI generation failed: ${err.message}`);
       console.log('  Falling back to template-based generation...\n');
-      lesson = generateLesson(args);
     }
-  } else {
-    console.log('\n  Using template-based generation (set ANTHROPIC_API_KEY for AI generation)\n');
     lesson = generateLesson(args);
   }
 
-  // Override prerequisites and animation from CLI args
   lesson.prerequisites = prerequisites;
   lesson.animation = getAnimationScene(args);
 
