@@ -422,10 +422,51 @@ Make it practical, job-relevant, and engaging. Include realistic test cases.`;
   return lesson;
 }
 
-// ── Main ──────────────────────────────────────────────────────────────
+// ── Help ───────────────────────────────────────────────────────────────
+
+function printHelp(): void {
+  console.log(`
+  CodeLabs Lesson Generator
+
+  USAGE:
+    npm run generate-lesson -- [options]
+
+  OPTIONS:
+    --topic     What the lesson teaches (e.g. "Form Validation")
+    --branch    Skill tree branch (dom, forms, async, arrays, python)
+    --language  Programming language (JavaScript, Python)
+    --deps      Prerequisite lesson IDs, comma-separated (e.g. "forms-input")
+    --output    Output filename (without path, written to src/data/lessons/)
+    --help      Show this help message
+
+  EXAMPLES:
+    npm run generate-lesson -- --topic "Form Validation" --branch forms --language JavaScript --deps "forms-input"
+    npm run generate-lesson -- --topic "Map & Filter" --branch arrays --language JavaScript --deps "arrays-map"
+    npm run generate-lesson -- --help
+
+  BYOK (AI-Powered Generation):
+    1. Get an Anthropic API key at https://console.anthropic.com/
+    2. Set it as an environment variable:
+       Windows:   set ANTHROPIC_API_KEY=sk-ant-...
+       PowerShell: $env:ANTHROPIC_API_KEY="sk-ant-..."
+       macOS/Linux: export ANTHROPIC_API_KEY=sk-ant-...
+    3. Run the same command — it'll use Claude instead of templates.
+       Falls back to templates if the API call fails.
+
+  OUTPUT:
+    By default, prints the lesson JSON to stdout.
+    Use --output to write to src/data/lessons/[name].json
+`);
+}
 
 async function main(): Promise<void> {
   const args = parseArgs();
+
+  if (process.argv.includes('--help') || process.argv.includes('-h')) {
+    printHelp();
+    return;
+  }
+
   const depsList = args.deps ? args.deps.split(',').map((d) => d.trim()).filter(Boolean) : [];
   const prerequisites = depsList;
 
